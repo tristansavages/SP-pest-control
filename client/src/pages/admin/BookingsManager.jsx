@@ -142,7 +142,7 @@ const BookingModal = ({ booking, onClose, onUpdate }) => {
   const handleWhatsApp = () => {
     openWhatsApp(
       booking.phone,
-      `Hi ${booking.name}, thank you for contacting JB Pest Control regarding your ${booking.pest_problem} issue. We would like to schedule a visit — when is a good time for you?`
+      `Hi ${booking.name}, thank you for contacting SP Pest Control regarding your ${booking.pest_problem} issue. We would like to schedule a visit — when is a good time for you?`
     );
   };
 
@@ -557,7 +557,7 @@ export default function BookingsManager() {
                           onClick={() =>
                             openWhatsApp(
                               booking.phone,
-                              `Hi ${booking.name}, this is JB Pest Control following up on your enquiry.`
+                              `Hi ${booking.name}, this is SP Pest Control following up on your enquiry.`
                             )
                           }
                           title="Open WhatsApp"

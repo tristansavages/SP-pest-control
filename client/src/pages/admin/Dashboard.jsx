@@ -147,7 +147,7 @@ const BookingModal = ({ booking, onClose }) => {
           </div>
           {booking.phone && (
             <button
-              onClick={() => openWhatsApp(booking.phone, `Hi ${booking.name}, thank you for your enquiry with JB Pest Control regarding "${booking.pest_problem}". We'll be in touch shortly!`)}
+              onClick={() => openWhatsApp(booking.phone, `Hi ${booking.name}, thank you for your enquiry with SP Pest Control regarding "${booking.pest_problem}". We'll be in touch shortly!`)}
               className="flex items-center gap-2 w-full justify-center px-4 py-2.5 rounded-xl bg-green-500 hover:bg-green-600 text-white text-sm font-semibold transition-colors"
             >
               <ExternalLink size={15} />
@@ -248,7 +248,7 @@ export default function Dashboard() {
         <div>
           <h2 className="text-2xl font-black text-gray-900">Dashboard Overview</h2>
           <p className="text-sm text-gray-500 mt-0.5">
-            Welcome back — here's what's happening at JB Pest Control.
+            Welcome back — here's what's happening at SP Pest Control.
           </p>
         </div>
         <button
@@ -356,7 +356,7 @@ export default function Dashboard() {
                             onClick={() =>
                               openWhatsApp(
                                 booking.phone,
-                                `Hi ${booking.name}, thank you for contacting JB Pest Control!`
+                                `Hi ${booking.name}, thank you for contacting SP Pest Control!`
                               )
                             }
                             title="Open WhatsApp"

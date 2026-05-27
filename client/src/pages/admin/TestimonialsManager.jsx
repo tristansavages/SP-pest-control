@@ -171,7 +171,7 @@ const TestimonialModal = ({ testimonial, onClose, onSave }) => {
               onChange={(e) => setForm((p) => ({ ...p, review: e.target.value }))}
               rows={5}
               required
-              placeholder="What did the customer say about JB Pest Control?"
+              placeholder="What did the customer say about SP Pest Control?"
               className="w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none transition"
             />
             <p className="text-[11px] text-gray-400 mt-1">

@@ -18,7 +18,7 @@ import Contact from '../components/home/Contact'
 
 export default function Home() {
   useEffect(() => {
-    document.title = 'Jb Pest Control Brakpan | Professional Pest Control | Available 24/7'
+    document.title = 'Sp Pest Control Brakpan | Professional Pest Control | Available 24/7'
   }, [])
 
   return (

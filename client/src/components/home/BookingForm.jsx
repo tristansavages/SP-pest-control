@@ -124,7 +124,7 @@ export default function BookingForm() {
               <div className="w-3 h-3 rounded-full bg-white/20" />
               <div className="w-3 h-3 rounded-full bg-white/20" />
             </div>
-            <span className="text-white/60 text-sm font-medium">Pest Control Booking Form — Jb Pest Control, Brakpan</span>
+            <span className="text-white/60 text-sm font-medium">Pest Control Booking Form — Sp Pest Control, Brakpan</span>
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">

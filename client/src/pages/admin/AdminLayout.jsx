@@ -67,7 +67,7 @@ export default function AdminLayout() {
       {/* Logo */}
       <div className="flex items-center gap-3 px-6 py-6 border-b border-white/10">
         <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-green-500 flex items-center justify-center shadow-lg shadow-green-500/30">
-          <span className="text-white font-black text-sm tracking-tight">JB</span>
+          <span className="text-white font-black text-sm tracking-tight">SP</span>
         </div>
         <div className="flex flex-col">
           <span className="text-white font-bold text-sm leading-tight">Pest Control</span>
@@ -120,7 +120,7 @@ export default function AdminLayout() {
               {user?.name || user?.username || 'Admin User'}
             </p>
             <p className="text-gray-500 text-[10px] truncate">
-              {user?.email || 'admin@jbpest.co.za'}
+              {user?.email || 'admin@sppestcontrol.co.za'}
             </p>
           </div>
           <Shield size={12} className="text-green-400 flex-shrink-0" />
@@ -192,7 +192,7 @@ export default function AdminLayout() {
                 {currentTitle}
               </h1>
               <p className="text-xs text-gray-400 hidden sm:block">
-                JB Pest Control &mdash; Admin Panel
+                SP Pest Control &mdash; Admin Panel
               </p>
             </div>
           </div>

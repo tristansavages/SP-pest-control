@@ -1,7 +1,7 @@
 {
-  "name": "jb-pest-control",
+  "name": "sp-pest-control",
   "version": "1.0.0",
-  "description": "Jb Pest Control - Professional Pest Control Website",
+  "description": "Sp Pest Control - Professional Pest Control Website",
   "engines": {
     "node": ">=18.0.0"
   },

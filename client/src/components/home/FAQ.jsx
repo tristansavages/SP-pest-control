@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 
 const faqs = [
-  { q: 'Do you offer pest control in Brakpan?', a: 'Yes, Jb Pest Control is based in Brakpan and provides pest control services across Brakpan and the surrounding areas, including Springs, Boksburg, Benoni, and the greater East Rand.' },
+  { q: 'Do you offer pest control in Brakpan?', a: 'Yes, Sp Pest Control is based in Brakpan and provides pest control services across Brakpan and the surrounding areas, including Springs, Boksburg, Benoni, and the greater East Rand.' },
   { q: 'Are you available 24 hours?', a: 'Yes, we are available 24 hours a day, 7 days a week. Whether you have a normal pest problem or a late-night emergency, you can contact us at any time.' },
   { q: 'Can I book through WhatsApp?', a: 'Absolutely. You can send us a WhatsApp message at 071 949 5929 at any time. We respond quickly and can arrange a booking via WhatsApp for your convenience.' },
   { q: 'Do you treat cockroaches and rodents?', a: 'Yes, cockroach control and rodent/rat control are among our most common services. We use professional treatments to eliminate both cockroaches and rodents from homes and businesses.' },
@@ -66,7 +66,7 @@ export default function FAQ() {
             <span className="text-green-600 text-xs font-bold uppercase tracking-widest">FAQ</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-4">Frequently Asked Questions</h2>
-          <p className="text-slate-500 text-lg">Everything you need to know about pest control with Jb Pest Control.</p>
+          <p className="text-slate-500 text-lg">Everything you need to know about pest control with Sp Pest Control.</p>
         </motion.div>
 
         <div className="space-y-3">

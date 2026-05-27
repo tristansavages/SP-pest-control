@@ -1,6 +1,6 @@
-# Jb Pest Control — Full-Stack Website
+# Sp Pest Control — Full-Stack Website
 
-Premium, fully responsive website for Jb Pest Control, Brakpan.
+Premium, fully responsive website for Sp Pest Control, Brakpan.
 
 ## Tech Stack
 
@@ -52,10 +52,10 @@ Frontend runs on: `http://localhost:5173`
 
 URL: `http://localhost:5173/admin/login`
 
-- **Email:** admin@jbpestcontrol.co.za
+- **Email:** admin@sppestcontrol.co.za
 - **Password:** Admin123!
 
-To change the admin password, update the seed in `server/db/database.js` and delete `server/db/jbpestcontrol.db` to re-seed.
+To change the admin password, update the seed in `server/db/database.js` and delete `server/db/sppestcontrol.db` to re-seed.
 
 ---
 
@@ -98,7 +98,7 @@ NODE_ENV=development
 ## File Structure
 
 ```
-JbPestControl/
+SpPestControl/
 ├── server/                    # Express API
 │   ├── db/database.js         # SQLite setup + seed
 │   ├── middleware/auth.js     # JWT middleware

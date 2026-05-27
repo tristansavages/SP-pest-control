@@ -41,7 +41,7 @@ export default function Header() {
               <Shield className="w-5 h-5 text-white" strokeWidth={2.5} />
             </div>
             <div className="leading-tight">
-              <div className="text-white font-bold text-base tracking-tight">JB Pest Control</div>
+              <div className="text-white font-bold text-base tracking-tight">SP Pest Control</div>
               <div className="text-green-400 text-[10px] font-medium uppercase tracking-widest">Brakpan</div>
             </div>
           </button>

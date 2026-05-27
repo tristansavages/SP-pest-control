@@ -25,8 +25,8 @@ export default function Gallery() {
     ? images.map((image) => ({
         id: image.id,
         src: getImageSrc(image.filename),
-        label: image.title || 'Jb Pest Control service',
-        alt: image.alt_text || image.title || 'Jb Pest Control service',
+        label: image.title || 'Sp Pest Control service',
+        alt: image.alt_text || image.title || 'Sp Pest Control service',
         featured: image.featured === 1,
       }))
     : stockImages.gallery

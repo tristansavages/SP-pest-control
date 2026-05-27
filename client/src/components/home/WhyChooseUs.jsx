@@ -24,7 +24,7 @@ export default function WhyChooseUs() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 border border-green-100 rounded-full mb-4">
             <span className="text-green-600 text-xs font-bold uppercase tracking-widest">Why Choose Us</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-4">The Jb Pest Control Difference</h2>
+          <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-4">The Sp Pest Control Difference</h2>
           <p className="text-slate-500 text-lg max-w-2xl mx-auto">
             We're not just pest controllers — we're your local Brakpan partners in keeping your home and business pest-free.
           </p>

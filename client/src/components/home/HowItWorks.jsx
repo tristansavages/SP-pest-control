@@ -23,7 +23,7 @@ export default function HowItWorks() {
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Simple. Fast. Professional.</h2>
           <p className="text-white/60 text-lg max-w-xl mx-auto">
-            Getting your pest problem sorted is straightforward with Jb Pest Control.
+            Getting your pest problem sorted is straightforward with Sp Pest Control.
           </p>
         </motion.div>
 

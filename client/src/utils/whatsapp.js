@@ -1,17 +1,17 @@
 export const WHATSAPP_NUMBER = '27719495929'
-export const DEFAULT_MESSAGE = 'Hi Jb Pest Control, I would like to book a pest control service. Please contact me.'
+export const DEFAULT_MESSAGE = 'Hi Sp Pest Control, I would like to book a pest control service. Please contact me.'
 
 export const buildWhatsAppUrl = (message = DEFAULT_MESSAGE) => {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
 }
 
 export const buildServiceEnquiryUrl = (serviceName) => {
-  const message = `Hi Jb Pest Control, I would like to enquire about ${serviceName}. Please contact me.`
+  const message = `Hi Sp Pest Control, I would like to enquire about ${serviceName}. Please contact me.`
   return buildWhatsAppUrl(message)
 }
 
 export const buildBookingUrl = (data) => {
-  const message = `Hi Jb Pest Control, I would like to book a pest control service.
+  const message = `Hi Sp Pest Control, I would like to book a pest control service.
 
 Name: ${data.full_name || ''}
 Phone: ${data.phone || ''}

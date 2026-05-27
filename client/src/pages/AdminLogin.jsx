@@ -43,7 +43,7 @@ export default function AdminLogin() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-green-500 shadow-2xl shadow-green-500/40 mb-4">
             <Shield className="w-8 h-8 text-white" strokeWidth={2.5} />
           </div>
-          <h1 className="text-2xl font-black text-white mb-1">Jb Pest Control</h1>
+          <h1 className="text-2xl font-black text-white mb-1">Sp Pest Control</h1>
           <p className="text-white/40 text-sm">Admin Dashboard</p>
         </div>
 
@@ -68,7 +68,7 @@ export default function AdminLogin() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@jbpestcontrol.co.za"
+                placeholder="admin@sppestcontrol.co.za"
                 className="input-field"
                 autoComplete="email"
               />
@@ -111,7 +111,7 @@ export default function AdminLogin() {
         </div>
 
         <p className="text-center text-white/20 text-xs mt-6">
-          Jb Pest Control Admin Panel — Restricted Access
+          Sp Pest Control Admin Panel — Restricted Access
         </p>
       </motion.div>
     </div>

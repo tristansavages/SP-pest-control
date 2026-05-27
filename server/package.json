@@ -1,7 +1,7 @@
 {
-  "name": "jb-pest-control-server",
+  "name": "sp-pest-control-server",
   "version": "1.0.0",
-  "description": "Backend API for Jb Pest Control website",
+  "description": "Backend API for Sp Pest Control website",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

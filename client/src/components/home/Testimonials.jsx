@@ -4,7 +4,7 @@ import { Star, Quote } from 'lucide-react'
 import { getTestimonials } from '../../utils/api'
 
 const fallback = [
-  { id: 1, name: 'Thabo Nkosi', location: 'Brakpan', rating: 5, review: 'Excellent service! Jb Pest Control responded within hours and completely sorted out our cockroach problem. Very professional and thorough. Highly recommend.' },
+  { id: 1, name: 'Thabo Nkosi', location: 'Brakpan', rating: 5, review: 'Excellent service! Sp Pest Control responded within hours and completely sorted out our cockroach problem. Very professional and thorough. Highly recommend.' },
   { id: 2, name: 'Sarah van der Merwe', location: 'Springs', rating: 5, review: 'We had a serious rodent problem in our warehouse. They came quickly, sealed the entry points, and the problem was fully resolved. Great work.' },
   { id: 3, name: 'Priya Naidoo', location: 'Brakpan East', rating: 5, review: 'Called them late at night for an urgent bed bug issue. Available and came out next morning. Very thorough treatment and great communication throughout.' },
 ]

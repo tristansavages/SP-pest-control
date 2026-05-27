@@ -39,13 +39,13 @@ export default function About() {
             </h2>
             <div className="space-y-4 text-slate-600 leading-relaxed mb-8">
               <p>
-                Jb Pest Control provides reliable, professional pest control services across Brakpan and surrounding areas. We understand how stressful pest problems can be — whether it's cockroaches in your kitchen, rodents in your walls, or termites threatening your property.
+                Sp Pest Control provides reliable, professional pest control services across Brakpan and surrounding areas. We understand how stressful pest problems can be — whether it's cockroaches in your kitchen, rodents in your walls, or termites threatening your property.
               </p>
               <p>
                 Our experienced team uses safe, effective treatments to eliminate pests quickly and professionally. We take pride in our fast response times, attention to detail, and commitment to customer satisfaction.
               </p>
               <p>
-                From once-off treatments to ongoing pest management contracts, we are here to help you maintain a clean, safe, and pest-free environment. With Jb Pest Control, you deal directly with a knowledgeable local team that genuinely cares about delivering results.
+                From once-off treatments to ongoing pest management contracts, we are here to help you maintain a clean, safe, and pest-free environment. With Sp Pest Control, you deal directly with a knowledgeable local team that genuinely cares about delivering results.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -87,7 +87,7 @@ export default function About() {
                   <Shield className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
-                  <div className="font-bold text-base">Why Jb Pest Control?</div>
+                  <div className="font-bold text-base">Why Sp Pest Control?</div>
                   <div className="text-white/50 text-xs">Trusted locally in Brakpan</div>
                 </div>
               </div>

@@ -17,7 +17,7 @@ router.post('/login', (req, res) => {
     if (!isMatch) return res.status(401).json({ success: false, error: 'Invalid email or password.' });
     const token = jwt.sign(
       { id: user.id, email: user.email, name: user.name },
-      process.env.JWT_SECRET || 'jbpestcontrol_super_secret_jwt_key_2024_change_in_production',
+      process.env.JWT_SECRET || 'sppestcontrol_super_secret_jwt_key_2024_change_in_production',
       { expiresIn: '7d' }
     );
     res.json({ success: true, data: { token, user: { id: user.id, email: user.email, name: user.name } } });

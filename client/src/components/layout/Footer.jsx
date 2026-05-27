@@ -22,7 +22,7 @@ export default function Footer() {
                 <Shield className="w-5 h-5 text-white" strokeWidth={2.5} />
               </div>
               <div>
-                <div className="font-bold text-base">JB Pest Control</div>
+                <div className="font-bold text-base">SP Pest Control</div>
                 <div className="text-green-400 text-[10px] uppercase tracking-widest">Brakpan</div>
               </div>
             </div>
@@ -129,7 +129,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/40 text-sm">
-            © {new Date().getFullYear()} Jb Pest Control. All rights reserved.
+            © {new Date().getFullYear()} Sp Pest Control. All rights reserved.
           </p>
           <p className="text-white/40 text-sm">
             7527 Jumba Street, Brakpan, 1520 · Pest Control Services

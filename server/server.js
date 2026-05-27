@@ -30,7 +30,7 @@ app.use('/api/contact', require('./routes/contact'));
 app.use('/api/dashboard', require('./routes/dashboard'));
 
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, data: { status: 'Jb Pest Control API running', timestamp: new Date().toISOString() } });
+  res.json({ success: true, data: { status: 'Sp Pest Control API running', timestamp: new Date().toISOString() } });
 });
 
 // Serve React frontend in production
@@ -52,7 +52,7 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✓ Jb Pest Control ${isProd ? 'PRODUCTION' : 'DEV'} server running on port ${PORT}`);
+  console.log(`✓ Sp Pest Control ${isProd ? 'PRODUCTION' : 'DEV'} server running on port ${PORT}`);
 });
 
 module.exports = app;

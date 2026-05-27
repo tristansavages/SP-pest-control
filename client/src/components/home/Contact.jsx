@@ -60,7 +60,7 @@ export default function Contact() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 border border-green-100 rounded-full mb-4">
             <span className="text-green-600 text-xs font-bold uppercase tracking-widest">Get In Touch</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-4">Contact Jb Pest Control</h2>
+          <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-4">Contact Sp Pest Control</h2>
           <p className="text-slate-500 text-lg max-w-xl mx-auto">Have a question or need a quote? Get in touch — we're available 24/7.</p>
         </motion.div>
 

@@ -25,7 +25,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem('jb_admin_token')
+      const token = localStorage.getItem('sp_admin_token')
       if (!token) {
         dispatch({ type: 'AUTH_CHECKED' })
         return
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
         const res = await verifyAuth()
         dispatch({ type: 'LOGIN_SUCCESS', payload: { user: res.data.data.user, token } })
       } catch {
-        localStorage.removeItem('jb_admin_token')
+        localStorage.removeItem('sp_admin_token')
         dispatch({ type: 'AUTH_CHECKED' })
       }
     }
@@ -44,13 +44,13 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const res = await apiLogin(email, password)
     const { token, user } = res.data.data
-    localStorage.setItem('jb_admin_token', token)
+    localStorage.setItem('sp_admin_token', token)
     dispatch({ type: 'LOGIN_SUCCESS', payload: { user, token } })
     return { user, token }
   }
 
   const logout = () => {
-    localStorage.removeItem('jb_admin_token')
+    localStorage.removeItem('sp_admin_token')
     dispatch({ type: 'LOGOUT' })
   }
 

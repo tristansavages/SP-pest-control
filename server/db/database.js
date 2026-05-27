@@ -85,11 +85,11 @@ db.exec(`
   );
 `);
 
-const adminExists = db.prepare('SELECT id FROM users WHERE email = ?').get('admin@jbpestcontrol.co.za');
+const adminExists = db.prepare('SELECT id FROM users WHERE email = ?').get('admin@sppestcontrol.co.za');
 if (!adminExists) {
   const hashedPassword = bcrypt.hashSync('Admin123!', 10);
   db.prepare('INSERT INTO users (email, password, name) VALUES (?, ?, ?)').run(
-    'admin@jbpestcontrol.co.za',
+    'admin@sppestcontrol.co.za',
     hashedPassword,
     'Admin'
   );
@@ -118,8 +118,8 @@ if (contentCount.count === 0) {
   const contentItems = [
     { key: 'hero_headline', value: 'Professional Pest Control in Brakpan — Available 24/7' },
     { key: 'hero_subheadline', value: 'Fast, safe, and reliable pest control for homes and businesses in Brakpan and surrounding areas. We eliminate pests quickly and professionally so you can have complete peace of mind.' },
-    { key: 'about_text', value: 'Jb Pest Control provides reliable, professional pest control services across Brakpan and the surrounding areas. We understand how stressful pest problems can be — whether it\'s cockroaches in your kitchen, rodents in your walls, or termites threatening your property.\n\nOur experienced team uses safe, effective treatments to eliminate pests quickly and professionally. We take pride in our fast response times, our attention to detail, and our commitment to customer satisfaction.\n\nEvery home and business is different, which is why we tailor our pest control solutions to your specific needs. From once-off treatments to ongoing pest management contracts, we are here to help you maintain a clean, safe, and pest-free environment. With Jb Pest Control, you deal directly with a knowledgeable local team that genuinely cares about delivering results. We are available 24 hours a day for urgent pest control needs across Brakpan and surrounding areas.' },
-    { key: 'whatsapp_message', value: 'Hi Jb Pest Control, I would like to book a pest control service. Please contact me.' },
+    { key: 'about_text', value: 'Sp Pest Control provides reliable, professional pest control services across Brakpan and the surrounding areas. We understand how stressful pest problems can be — whether it\'s cockroaches in your kitchen, rodents in your walls, or termites threatening your property.\n\nOur experienced team uses safe, effective treatments to eliminate pests quickly and professionally. We take pride in our fast response times, our attention to detail, and our commitment to customer satisfaction.\n\nEvery home and business is different, which is why we tailor our pest control solutions to your specific needs. From once-off treatments to ongoing pest management contracts, we are here to help you maintain a clean, safe, and pest-free environment. With Sp Pest Control, you deal directly with a knowledgeable local team that genuinely cares about delivering results. We are available 24 hours a day for urgent pest control needs across Brakpan and surrounding areas.' },
+    { key: 'whatsapp_message', value: 'Hi Sp Pest Control, I would like to book a pest control service. Please contact me.' },
     { key: 'cta_primary', value: 'Book Pest Control' },
     { key: 'cta_secondary', value: 'Call 071 949 5929' },
     { key: 'operating_hours', value: 'Open 24 Hours' },
@@ -135,8 +135,8 @@ if (contentCount.count === 0) {
 const testimonialCount = db.prepare('SELECT COUNT(*) as count FROM testimonials').get();
 if (testimonialCount.count === 0) {
   const testimonials = [
-    { name: 'Thabo Nkosi', location: 'Brakpan', rating: 5, review: 'Excellent service! Jb Pest Control responded within hours and completely sorted out our cockroach problem. Very professional and thorough. Highly recommend to anyone in Brakpan.' },
-    { name: 'Sarah van der Merwe', location: 'Springs', rating: 5, review: 'We had a serious rodent problem in our warehouse. Jb Pest Control came out quickly, sealed all the entry points, and the problem was resolved completely. Great work and fair pricing.' },
+    { name: 'Thabo Nkosi', location: 'Brakpan', rating: 5, review: 'Excellent service! Sp Pest Control responded within hours and completely sorted out our cockroach problem. Very professional and thorough. Highly recommend to anyone in Brakpan.' },
+    { name: 'Sarah van der Merwe', location: 'Springs', rating: 5, review: 'We had a serious rodent problem in our warehouse. Sp Pest Control came out quickly, sealed all the entry points, and the problem was resolved completely. Great work and fair pricing.' },
     { name: 'Priya Naidoo', location: 'Brakpan East', rating: 5, review: 'Called them late at night for an urgent bed bug issue. They were available and came out the next morning. Very thorough treatment and excellent communication throughout. Will definitely use again.' },
   ];
   const insertTestimonial = db.prepare('INSERT INTO testimonials (name, location, rating, review) VALUES (?, ?, ?, ?)');

@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
   }
   const token = authHeader.split(' ')[1];
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'jbpestcontrol_super_secret_jwt_key_2024_change_in_production');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'sppestcontrol_super_secret_jwt_key_2024_change_in_production');
     req.user = decoded;
     next();
   } catch (err) {
