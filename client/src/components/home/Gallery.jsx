@@ -21,6 +21,15 @@ export default function Gallery() {
   }, [])
 
   const hasImages = images.length > 0
+  const displayImages = !loading && hasImages
+    ? images.map((image) => ({
+        id: image.id,
+        src: getImageSrc(image.filename),
+        label: image.title || 'Jb Pest Control service',
+        alt: image.alt_text || image.title || 'Jb Pest Control service',
+        featured: image.featured === 1,
+      }))
+    : stockImages.gallery
 
   return (
     <section className="section-padding bg-white">
@@ -38,53 +47,33 @@ export default function Gallery() {
           <p className="text-slate-500 text-lg max-w-xl mx-auto">Professional pest control across Brakpan homes and businesses.</p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
-          {!loading && hasImages
-            ? images.map((image, i) => (
-                <motion.div
-                  key={image.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: (i % 3) * 0.1 }}
-                  className="relative group rounded-2xl overflow-hidden aspect-square bg-slate-100"
-                >
-                  <img
-                    src={getImageSrc(image.filename)}
-                    alt={image.alt_text || image.title || 'Jb Pest Control service'}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  {image.featured === 1 && (
-                    <div className="absolute top-3 left-3 px-2 py-1 bg-green-500 text-white text-xs font-bold rounded-lg">Featured</div>
-                  )}
-                  {image.title && (
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-white text-sm font-semibold">{image.title}</p>
-                    </div>
-                  )}
-                </motion.div>
-              ))
-            : stockImages.gallery.map(({ src, label, alt }, i) => (
-                <motion.div
-                  key={label}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: (i % 3) * 0.1 }}
-                  className="relative rounded-2xl overflow-hidden aspect-square bg-slate-100 group"
-                >
-                  <img
-                    src={src}
-                    alt={alt}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-900/75 via-navy-900/10 to-transparent" />
-                  <p className="absolute inset-x-0 bottom-0 p-4 text-white text-sm font-semibold">{label}</p>
-                </motion.div>
-              ))
-          }
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
+          {displayImages.map(({ id, src, label, alt, featured }, i) => (
+            <motion.div
+              key={id || label}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: (i % 3) * 0.1 }}
+              className={`relative rounded-2xl overflow-hidden bg-slate-100 group ${
+                i === 0 ? 'lg:col-span-6 lg:row-span-2 aspect-[4/3] lg:aspect-auto min-h-[22rem]' : 'lg:col-span-3 aspect-square'
+              }`}
+            >
+              <img
+                src={src}
+                alt={alt}
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                loading={i === 0 ? 'eager' : 'lazy'}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-navy-900/10 to-transparent" />
+              {(featured || i === 0) && (
+                <div className="absolute top-3 left-3 px-2.5 py-1 bg-green-500 text-white text-xs font-bold rounded-lg">
+                  Featured
+                </div>
+              )}
+              <p className="absolute inset-x-0 bottom-0 p-4 text-white text-sm sm:text-base font-semibold">{label}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
