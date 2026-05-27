@@ -1,4 +1,4 @@
-export const WHATSAPP_NUMBER = '27719495929'
+export const WHATSAPP_NUMBER = '27608117897'
 export const DEFAULT_MESSAGE = 'Hi Sp Pest Control, I would like to book a pest control service. Please contact me.'
 
 export const buildWhatsAppUrl = (message = DEFAULT_MESSAGE) => {

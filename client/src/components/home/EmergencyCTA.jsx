@@ -33,11 +33,11 @@ export default function EmergencyCTA() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="tel:0719495929"
+              href="tel:0608117897"
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-white text-green-600 hover:bg-green-50 font-bold rounded-xl shadow-xl transition-all duration-200 hover:-translate-y-0.5"
             >
               <Phone className="w-5 h-5" />
-              Call 071 949 5929
+              Call 060 811 7897
             </a>
             <button
               onClick={() => openWhatsApp(DEFAULT_WA_URL)}

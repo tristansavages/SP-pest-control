@@ -5,8 +5,8 @@ import { submitContact } from '../../utils/api'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
 
 const contactCards = [
-  { icon: Phone, title: 'Phone', value: '071 949 5929', sub: 'Click to call', href: 'tel:0719495929', color: 'bg-blue-50 text-blue-600', action: null },
-  { icon: MessageCircle, title: 'WhatsApp', value: '071 949 5929', sub: 'Open chat', href: null, color: 'bg-[#25D366]/10 text-[#25D366]', action: () => openWhatsApp(DEFAULT_WA_URL) },
+  { icon: Phone, title: 'Phone', value: '060 811 7897', sub: 'Click to call', href: 'tel:0608117897', color: 'bg-blue-50 text-blue-600', action: null },
+  { icon: MessageCircle, title: 'WhatsApp', value: '060 811 7897', sub: 'Open chat', href: null, color: 'bg-[#25D366]/10 text-[#25D366]', action: () => openWhatsApp(DEFAULT_WA_URL) },
   { icon: MapPin, title: 'Address', value: '7527 Jumba Street', sub: 'Brakpan, 1520', href: 'https://maps.google.com/?q=7527+Jumba+Street+Brakpan', color: 'bg-slate-100 text-slate-600', action: null },
   { icon: Clock, title: 'Hours', value: 'Open 24 Hours', sub: 'Available always', href: null, color: 'bg-green-50 text-green-600', action: null },
 ]

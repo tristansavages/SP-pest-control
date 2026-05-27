@@ -31,7 +31,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-3">
               <a
-                href="tel:0719495929"
+                href="tel:0608117897"
                 className="flex items-center gap-2 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors"
               >
                 <Phone className="w-4 h-4 text-green-400" />
@@ -87,13 +87,13 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-sm uppercase tracking-wider text-white/40 mb-4">Contact Us</h3>
             <div className="space-y-3">
-              <a href="tel:0719495929" className="flex items-start gap-3 group">
+              <a href="tel:0608117897" className="flex items-start gap-3 group">
                 <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Phone className="w-4 h-4 text-green-400" />
                 </div>
                 <div>
                   <div className="text-white/40 text-xs uppercase tracking-wide">Phone</div>
-                  <div className="text-white/80 group-hover:text-green-400 text-sm transition-colors">071 949 5929</div>
+                  <div className="text-white/80 group-hover:text-green-400 text-sm transition-colors">060 811 7897</div>
                 </div>
               </a>
               <button onClick={() => openWhatsApp(DEFAULT_WA_URL)} className="flex items-start gap-3 group w-full">
@@ -102,7 +102,7 @@ export default function Footer() {
                 </div>
                 <div className="text-left">
                   <div className="text-white/40 text-xs uppercase tracking-wide">WhatsApp</div>
-                  <div className="text-white/80 group-hover:text-[#25D366] text-sm transition-colors">071 949 5929</div>
+                  <div className="text-white/80 group-hover:text-[#25D366] text-sm transition-colors">060 811 7897</div>
                 </div>
               </button>
               <div className="flex items-start gap-3">

@@ -114,11 +114,11 @@ export default function Header() {
                 Book Now
               </button>
               <a
-                href="tel:0719495929"
+                href="tel:0608117897"
                 className="flex items-center justify-center gap-2 w-full px-4 py-3 border border-white/20 text-white rounded-xl text-sm font-semibold transition-colors hover:bg-white/10"
               >
                 <Phone className="w-4 h-4" />
-                071 949 5929
+                060 811 7897
               </a>
             </div>
           </div>

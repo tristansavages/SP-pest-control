@@ -37,11 +37,11 @@ export default function WhatsAppCTA() {
                 Open WhatsApp Chat
               </button>
               <a
-                href="tel:0719495929"
+                href="tel:0608117897"
                 className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 hover:border-white/60 text-white font-bold rounded-xl transition-all duration-200 hover:bg-white/10"
               >
                 <Phone className="w-5 h-5" />
-                071 949 5929
+                060 811 7897
               </a>
             </div>
           </div>

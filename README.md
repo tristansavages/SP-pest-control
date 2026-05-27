@@ -75,7 +75,7 @@ To change the admin password, update the seed in `server/db/database.js` and del
 ## WhatsApp Integration
 
 - **Number:** +27 71 949 5929
-- **Default link:** `https://wa.me/27719495929?text=...`
+- **Default link:** `https://wa.me/27608117897?text=...`
 - Floating WhatsApp button on all pages
 - Service-specific WhatsApp enquiry buttons
 - Booking form includes WhatsApp confirmation option

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { PhoneCall, ClipboardCheck, Wrench, CheckCircle } from 'lucide-react'
 
 const steps = [
-  { number: '01', icon: PhoneCall, title: 'Contact or Book Online', description: 'Fill in our booking form, give us a call on 071 949 5929, or send us a quick WhatsApp message. We respond fast.', color: 'bg-blue-500' },
+  { number: '01', icon: PhoneCall, title: 'Contact or Book Online', description: 'Fill in our booking form, give us a call on 060 811 7897, or send us a quick WhatsApp message. We respond fast.', color: 'bg-blue-500' },
   { number: '02', icon: ClipboardCheck, title: 'Confirm the Problem', description: 'We confirm the pest issue, your property type, location, and urgency so we can prepare the right treatment.', color: 'bg-green-500' },
   { number: '03', icon: Wrench, title: 'Professional Service', description: 'Our team attends to the pest problem using professional, effective, and safe treatment methods.', color: 'bg-amber-500' },
   { number: '04', icon: CheckCircle, title: 'Peace of Mind', description: 'You receive reliable, professional service and support — leaving you with a cleaner, safer, pest-free space.', color: 'bg-emerald-500' },
