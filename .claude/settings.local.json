@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm --version)",
+      "Bash(npm uninstall *)",
+      "Bash(node -e \"const db = require\\('better-sqlite3'\\)\\(':memory:'\\); console.log\\('better-sqlite3 OK, version:', db.pragma\\('user_version', {simple:true}\\)\\);\")",
+      "Bash(node server.js)",
+      "Bash(curl -s http://localhost:5000/api/health)",
+      "Bash(curl -s http://localhost:5000/api/services)",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Services:', len\\(d['data']['services']\\)\\)\")",
+      "Bash(node -e \"const d=require\\('fs'\\).readFileSync\\('/dev/stdin','utf8'\\); const j=JSON.parse\\(d\\); console.log\\('Services loaded:', j.data.services.length, 'First:', j.data.services[0].name\\);\")",
+      "Bash(curl -s -X POST http://localhost:5000/api/auth/login -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"admin@jbpestcontrol.co.za\\\\\",\\\\\"password\\\\\":\\\\\"Admin123!\\\\\"}\")",
+      "Bash(curl -s -X POST http://localhost:5000/api/bookings -H \"Content-Type: application/json\" -d \"{\\\\\"full_name\\\\\":\\\\\"Test User\\\\\",\\\\\"phone\\\\\":\\\\\"0821234567\\\\\",\\\\\"address\\\\\":\\\\\"Brakpan\\\\\",\\\\\"property_type\\\\\":\\\\\"Residential\\\\\",\\\\\"pest_problem\\\\\":\\\\\"Cockroaches\\\\\",\\\\\"urgency\\\\\":\\\\\"normal\\\\\"}\")",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(heroku --version)",
+      "Bash(git --version)",
+      "Bash(taskkill /F /IM node.exe)"
+    ]
+  }
+}
