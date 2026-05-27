@@ -1,11 +1,19 @@
 import { motion } from 'framer-motion'
 import { Phone, MessageCircle, Zap } from 'lucide-react'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
+import { stockImages } from '../../constants/stockImages'
 
 export default function EmergencyCTA() {
   return (
-    <section className="bg-gradient-to-r from-green-600 to-green-500 py-14">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <section className="relative overflow-hidden bg-green-700 py-14">
+      <img
+        src={stockImages.emergency}
+        alt="Pest control worker applying treatment outdoors"
+        className="absolute inset-0 h-full w-full object-cover opacity-35"
+        loading="lazy"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-green-700/95 via-green-600/90 to-navy-900/80" />
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

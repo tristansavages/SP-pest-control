@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { CheckCircle, Shield, Users, Clock, MapPin, Star } from 'lucide-react'
+import { stockImages } from '../../constants/stockImages'
 
 const highlights = [
   'Fast Response Times Across Brakpan',
@@ -65,6 +66,21 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="space-y-6"
           >
+            <div className="relative overflow-hidden rounded-3xl aspect-[4/3] shadow-xl">
+              <img
+                src={stockImages.about}
+                alt="Pest control technician treating an outdoor residential area"
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-navy-900/10 to-transparent" />
+              <div className="absolute left-5 bottom-5 right-5">
+                <div className="inline-flex items-center gap-2 rounded-xl bg-white/90 px-4 py-3 text-sm font-bold text-navy-900 shadow-lg">
+                  <Shield className="h-4 w-4 text-green-600" />
+                  Safe treatments for homes and businesses
+                </div>
+              </div>
+            </div>
+
             <div className="bg-navy-900 rounded-3xl p-8 text-white">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">

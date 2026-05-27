@@ -16,7 +16,19 @@
       "Bash(curl -s http://localhost:5173)",
       "Bash(heroku --version)",
       "Bash(git --version)",
-      "Bash(taskkill /F /IM node.exe)"
+      "Bash(taskkill /F /IM node.exe)",
+      "Bash(git config *)",
+      "Bash(git commit -m 'Initial commit: Jb Pest Control full-stack website *)",
+      "Bash(heroku create *)",
+      "Bash(git push *)",
+      "Bash(heroku buildpacks:set heroku/nodejs --app jb-pest-control)",
+      "Bash(heroku config:set NPM_CONFIG_PRODUCTION=false --app jb-pest-control)",
+      "Bash(git commit *)",
+      "Bash(curl -s https://jb-pest-control-6a624fd44bde.herokuapp.com/api/health)",
+      "Bash(curl -s https://jb-pest-control-6a624fd44bde.herokuapp.com/api/services)",
+      "Bash(node -e \"process.stdin.resume\\(\\); let d=''; process.stdin.on\\('data',c=>d+=c\\); process.stdin.on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\); console.log\\('Services on Heroku:', j.data.services.length\\);}\\)\")",
+      "Bash(curl -s -X POST https://jb-pest-control-6a624fd44bde.herokuapp.com/api/auth/login -H \"Content-Type: application/json\" -d \"{\\\\\"email\\\\\":\\\\\"admin@jbpestcontrol.co.za\\\\\",\\\\\"password\\\\\":\\\\\"Admin123!\\\\\"}\")",
+      "Bash(node -e \"process.stdin.resume\\(\\); let d=''; process.stdin.on\\('data',c=>d+=c\\); process.stdin.on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\); console.log\\('Login:', j.success ? 'OK - token received' : 'FAILED: ' + j.error\\);}\\)\")"
     ]
   }
 }

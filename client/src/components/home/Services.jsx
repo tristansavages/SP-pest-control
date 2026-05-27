@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { MessageCircle, Bug, Zap, Shield, AlertTriangle, Moon, Sparkles, Circle, Crosshair, Home, Building2, ChevronRight } from 'lucide-react'
 import { getServices } from '../../utils/api'
 import { buildServiceEnquiryUrl, openWhatsApp } from '../../utils/whatsapp'
+import { getServiceImage } from '../../constants/stockImages'
 
 const iconMap = {
   Bug, Zap, Shield, AlertTriangle, Moon, Sparkles, Circle, Crosshair, Home, Building2,
@@ -25,27 +26,38 @@ function ServiceCard({ service, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.5, delay: (index % 4) * 0.1 }}
-      className="group bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-xl hover:border-green-200 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+      className="group bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-xl hover:border-green-200 hover:-translate-y-1 transition-all duration-300 flex flex-col overflow-hidden"
     >
-      <div className="w-12 h-12 rounded-xl bg-green-50 text-green-600 flex items-center justify-center mb-4 group-hover:bg-green-100 transition-colors">
-        <ServiceIcon name={service.icon} />
+      <div className="relative aspect-[4/3] overflow-hidden bg-slate-100">
+        <img
+          src={getServiceImage(service)}
+          alt={`${service.name} service`}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-900/65 via-transparent to-transparent" />
+        <div className="absolute left-4 bottom-4 w-11 h-11 rounded-xl bg-white/90 text-green-600 flex items-center justify-center shadow-lg">
+          <ServiceIcon name={service.icon} />
+        </div>
       </div>
-      <h3 className="font-bold text-navy-900 text-base mb-2">{service.name}</h3>
-      <p className="text-slate-500 text-sm leading-relaxed flex-1 mb-5 line-clamp-3">{service.description}</p>
-      <div className="flex flex-col gap-2 mt-auto">
-        <button
-          onClick={scrollToBooking}
-          className="w-full flex items-center justify-center gap-2 py-2.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-xl transition-colors"
-        >
-          Book This Service
-        </button>
-        <button
-          onClick={() => openWhatsApp(buildServiceEnquiryUrl(service.name))}
-          className="w-full flex items-center justify-center gap-2 py-2.5 border border-green-200 hover:border-green-400 hover:bg-green-50 text-green-600 text-sm font-semibold rounded-xl transition-colors"
-        >
-          <MessageCircle className="w-4 h-4" />
-          WhatsApp Enquiry
-        </button>
+      <div className="p-5 flex flex-col flex-1">
+        <h3 className="font-bold text-navy-900 text-base mb-2">{service.name}</h3>
+        <p className="text-slate-500 text-sm leading-relaxed flex-1 mb-5 line-clamp-3">{service.description}</p>
+        <div className="flex flex-col gap-2 mt-auto">
+          <button
+            onClick={scrollToBooking}
+            className="w-full flex items-center justify-center gap-2 py-2.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold rounded-xl transition-colors"
+          >
+            Book This Service
+          </button>
+          <button
+            onClick={() => openWhatsApp(buildServiceEnquiryUrl(service.name))}
+            className="w-full flex items-center justify-center gap-2 py-2.5 border border-green-200 hover:border-green-400 hover:bg-green-50 text-green-600 text-sm font-semibold rounded-xl transition-colors"
+          >
+            <MessageCircle className="w-4 h-4" />
+            WhatsApp Enquiry
+          </button>
+        </div>
       </div>
     </motion.div>
   )
@@ -53,14 +65,16 @@ function ServiceCard({ service, index }) {
 
 function SkeletonCard() {
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 animate-pulse">
-      <div className="w-12 h-12 rounded-xl bg-slate-100 mb-4" />
-      <div className="h-4 bg-slate-100 rounded-lg w-3/4 mb-2" />
-      <div className="h-3 bg-slate-100 rounded-lg w-full mb-1.5" />
-      <div className="h-3 bg-slate-100 rounded-lg w-5/6 mb-1.5" />
-      <div className="h-3 bg-slate-100 rounded-lg w-4/6 mb-6" />
-      <div className="h-9 bg-slate-100 rounded-xl mb-2" />
-      <div className="h-9 bg-slate-100 rounded-xl" />
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-100 animate-pulse overflow-hidden">
+      <div className="aspect-[4/3] bg-slate-100" />
+      <div className="p-5">
+        <div className="h-4 bg-slate-100 rounded-lg w-3/4 mb-3" />
+        <div className="h-3 bg-slate-100 rounded-lg w-full mb-1.5" />
+        <div className="h-3 bg-slate-100 rounded-lg w-5/6 mb-1.5" />
+        <div className="h-3 bg-slate-100 rounded-lg w-4/6 mb-6" />
+        <div className="h-9 bg-slate-100 rounded-xl mb-2" />
+        <div className="h-9 bg-slate-100 rounded-xl" />
+      </div>
     </div>
   )
 }
@@ -94,7 +108,7 @@ export default function Services() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {loading
             ? Array.from({ length: 10 }).map((_, i) => <SkeletonCard key={i} />)
             : services.map((service, i) => <ServiceCard key={service.id} service={service} index={i} />)

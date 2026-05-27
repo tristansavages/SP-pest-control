@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Shield, Home, Building2, CheckCircle, Star, Award } from 'lucide-react'
 import { getGallery } from '../../utils/api'
+import { stockImages } from '../../constants/stockImages'
 
-const placeholders = [
-  { icon: Shield, label: 'Residential Treatment', color: 'from-navy-900 to-navy-800' },
-  { icon: Home, label: 'Home Pest Control', color: 'from-green-800 to-green-700' },
-  { icon: Building2, label: 'Commercial Service', color: 'from-slate-700 to-slate-600' },
-  { icon: CheckCircle, label: 'Cockroach Control', color: 'from-navy-800 to-navy-700' },
-  { icon: Star, label: 'Safe Treatments', color: 'from-green-700 to-green-600' },
-  { icon: Award, label: 'Professional Results', color: 'from-slate-800 to-slate-700' },
-]
+const getImageSrc = (filename) => {
+  if (!filename) return ''
+  if (filename.startsWith('http')) return filename
+  return `/uploads/${filename}`
+}
 
 export default function Gallery() {
   const [images, setImages] = useState([])
@@ -53,9 +50,10 @@ export default function Gallery() {
                   className="relative group rounded-2xl overflow-hidden aspect-square bg-slate-100"
                 >
                   <img
-                    src={`http://localhost:5000/uploads/${image.filename}`}
+                    src={getImageSrc(image.filename)}
                     alt={image.alt_text || image.title || 'Jb Pest Control service'}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
                   />
                   {image.featured === 1 && (
                     <div className="absolute top-3 left-3 px-2 py-1 bg-green-500 text-white text-xs font-bold rounded-lg">Featured</div>
@@ -67,20 +65,23 @@ export default function Gallery() {
                   )}
                 </motion.div>
               ))
-            : placeholders.map(({ icon: Icon, label, color }, i) => (
+            : stockImages.gallery.map(({ src, label, alt }, i) => (
                 <motion.div
                   key={label}
                   initial={{ opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: (i % 3) * 0.1 }}
-                  className={`relative rounded-2xl overflow-hidden aspect-square bg-gradient-to-br ${color} flex flex-col items-center justify-center group cursor-pointer`}
+                  className="relative rounded-2xl overflow-hidden aspect-square bg-slate-100 group"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center mb-3">
-                    <Icon className="w-7 h-7 text-white" />
-                  </div>
-                  <p className="text-white/80 text-sm font-semibold text-center px-4">{label}</p>
-                  <div className="absolute inset-0 border-2 border-white/0 group-hover:border-white/20 rounded-2xl transition-colors duration-300" />
+                  <img
+                    src={src}
+                    alt={alt}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy-900/75 via-navy-900/10 to-transparent" />
+                  <p className="absolute inset-x-0 bottom-0 p-4 text-white text-sm font-semibold">{label}</p>
                 </motion.div>
               ))
           }

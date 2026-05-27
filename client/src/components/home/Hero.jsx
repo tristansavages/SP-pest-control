@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Phone, MessageCircle, Clock, MapPin, Building2, Zap, Shield } from 'lucide-react'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
+import { stockImages } from '../../constants/stockImages'
 
 const trustItems = [
   { icon: Clock, label: 'Open 24 Hours' },
@@ -35,8 +36,14 @@ export default function Hero() {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-navy-900">
       {/* Background layers */}
+      <img
+        src={stockImages.hero}
+        alt="Pest control technician fogging an outdoor residential area"
+        className="absolute inset-0 w-full h-full object-cover opacity-35"
+      />
+      <div className="absolute inset-0 bg-navy-950/55" />
       <div className="absolute inset-0 hero-grid" />
-      <div className="absolute inset-0 bg-gradient-to-br from-navy-900 via-navy-800 to-navy-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-navy-900/85 to-navy-950/95" />
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-green-500/5 rounded-full blur-3xl pointer-events-none" />
 
