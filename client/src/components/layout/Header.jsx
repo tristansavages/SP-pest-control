@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { MessageCircle, Menu, X } from 'lucide-react'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
 
@@ -26,8 +26,21 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const goHome = () => {
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return
+    }
+    navigate('/')
+    window.setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 0)
+  }
+
   const handleNavClick = (link) => {
     setMenuOpen(false)
+    if (link.href === '/') {
+      goHome()
+      return
+    }
     if (link.type === 'page') {
       navigate(link.href)
     } else {
@@ -62,7 +75,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
+          <button type="button" onClick={goHome} className="flex items-center gap-2.5 group text-left">
             <div className="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-lg overflow-hidden">
               <img
                 src="/sp-pest-control-logo.png"
@@ -74,7 +87,7 @@ export default function Header() {
               <div className="text-white font-bold text-base tracking-tight">SP Pest Control</div>
               <div className="text-green-400 text-[10px] font-medium uppercase tracking-widest">Professional Pest Control</div>
             </div>
-          </Link>
+          </button>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
