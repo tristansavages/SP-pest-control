@@ -1,26 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const crypto = require('crypto');
 const db = require('../db/database');
 const authMiddleware = require('../middleware/auth');
+const { generatePayFastSignature } = require('../utils/payfastSignature');
 
 const IS_DEV = process.env.NODE_ENV !== 'production';
 
-// Support both old (PAYFAST_SANDBOX/APP_URL) and new env var names
+// Env vars — support both new names and legacy fallbacks
 const PAYFAST_MERCHANT_ID  = process.env.PAYFAST_MERCHANT_ID  || '';
 const PAYFAST_MERCHANT_KEY = process.env.PAYFAST_MERCHANT_KEY || '';
 const PAYFAST_PASSPHRASE   = process.env.PAYFAST_PASSPHRASE   || '';
 
-// PAYFAST_MODE=sandbox|live  (fallback: derive from legacy PAYFAST_SANDBOX)
+// PAYFAST_MODE: sandbox | live  (fallback: derive from legacy PAYFAST_SANDBOX)
 const PAYFAST_MODE = process.env.PAYFAST_MODE
   || (process.env.PAYFAST_SANDBOX === 'false' ? 'live' : 'sandbox');
 
-// FRONTEND_URL — used for return_url / cancel_url
+// FRONTEND_URL — used for return_url and cancel_url
 // BACKEND_URL  — used for notify_url (must be publicly reachable)
 const FRONTEND_URL = process.env.FRONTEND_URL || process.env.APP_URL || 'http://localhost:5173';
 const BACKEND_URL  = process.env.BACKEND_URL  || process.env.APP_URL || 'http://localhost:5000';
 
-const PAYFAST_URL = PAYFAST_MODE === 'live'
+const PAYFAST_PROCESS_URL = PAYFAST_MODE === 'live'
   ? 'https://www.payfast.co.za/eng/process'
   : 'https://sandbox.payfast.co.za/eng/process';
 
@@ -28,82 +28,6 @@ const PAYFAST_URL = PAYFAST_MODE === 'live'
 
 function formatPayFastAmount(amount) {
   return parseFloat(amount).toFixed(2);
-}
-
-/**
- * Generate a PayFast-compatible MD5 signature.
- *
- * Rules:
- *  - Iterate keys in the ORDER they appear in `data` (do NOT sort alphabetically).
- *    PayFast regenerates the signature from the fields it receives in submission
- *    order, so the sign order must match the submit order exactly.
- *  - Skip the `signature` field itself.
- *  - Skip fields whose value is '', null, or undefined.
- *  - Trim values; encode with encodeURIComponent; replace %20 with +.
- *  - Append &passphrase=... only if passphrase is a non-empty string.
- *  - Return lowercase MD5 hex.
- */
-function generatePayFastSignature(data, passPhrase) {
-  let pfStr = '';
-
-  for (const key of Object.keys(data)) {
-    const val = data[key];
-    if (key === 'signature') continue;
-    if (val === '' || val === null || val === undefined) continue;
-    pfStr += `${key}=${encodeURIComponent(String(val).trim()).replace(/%20/g, '+')}&`;
-  }
-
-  pfStr = pfStr.slice(0, -1); // remove trailing &
-
-  if (passPhrase && passPhrase.trim() !== '') {
-    pfStr += `&passphrase=${encodeURIComponent(passPhrase.trim()).replace(/%20/g, '+')}`;
-  }
-
-  if (IS_DEV) {
-    console.log('[PayFast] Signature string :', pfStr);
-  }
-
-  return crypto.createHash('md5').update(pfStr).digest('hex');
-}
-
-/**
- * Build the PayFast payload object in the official PayFast field order.
- * Only include fields that have a real value — keeps the signed string lean
- * and prevents PayFast rejecting fields it doesn't expect.
- *
- * Official order:
- *   merchant_id, merchant_key, return_url, cancel_url, notify_url,
- *   name_first, name_last, email_address, cell_number,
- *   m_payment_id, amount, item_name, item_description,
- *   custom_int1-5, custom_str1-5,
- *   email_confirmation, confirmation_address, payment_method
- */
-function buildPfPayload({ merchantReference, parsedAmount, itemName, itemDescription, nameFirst, nameLast, emailAddress }) {
-  const payload = {};
-
-  // — Merchant credentials
-  payload.merchant_id  = PAYFAST_MERCHANT_ID;
-  payload.merchant_key = PAYFAST_MERCHANT_KEY;
-
-  // — URLs
-  payload.return_url = `${FRONTEND_URL}/payment/success?ref=${merchantReference}`;
-  payload.cancel_url = `${FRONTEND_URL}/payment/cancelled?ref=${merchantReference}`;
-  payload.notify_url = `${BACKEND_URL}/api/payments/webhook`;
-
-  // — Customer info (before payment details per PayFast spec)
-  if (nameFirst && nameFirst.trim())    payload.name_first    = nameFirst.trim();
-  if (nameLast  && nameLast.trim())     payload.name_last     = nameLast.trim();
-  if (emailAddress && emailAddress.trim()) payload.email_address = emailAddress.trim();
-
-  // — Payment details
-  payload.m_payment_id    = merchantReference;
-  payload.amount          = formatPayFastAmount(parsedAmount);
-  payload.item_name       = String(itemName || 'Pest Control Service').replace(/[—–]/g, '-').substring(0, 100);
-  if (itemDescription && itemDescription.trim()) {
-    payload.item_description = String(itemDescription).substring(0, 255);
-  }
-
-  return payload;
 }
 
 function generateReference() {
@@ -114,52 +38,100 @@ function isPfConfigured() {
   return !!(PAYFAST_MERCHANT_ID && PAYFAST_MERCHANT_KEY);
 }
 
+/**
+ * Build the PayFast payload in the official PayFast field order.
+ * Only populate fields that carry a real value.
+ * All values are plain strings — nothing is pre-encoded here.
+ * The signature function handles encoding.
+ *
+ * Official order:
+ *   merchant_id, merchant_key,
+ *   return_url, cancel_url, notify_url,
+ *   name_first, name_last, email_address, cell_number,
+ *   m_payment_id, amount,
+ *   item_name, item_description,
+ *   custom_int1-5, custom_str1-5,
+ *   email_confirmation, confirmation_address, payment_method
+ */
+function buildPfPayload({ merchantReference, parsedAmount, itemName, itemDescription, nameFirst, nameLast, emailAddress }) {
+  const payload = {};
+
+  // Merchant credentials
+  payload.merchant_id  = PAYFAST_MERCHANT_ID;
+  payload.merchant_key = PAYFAST_MERCHANT_KEY;
+
+  // Redirect URLs
+  payload.return_url = `${FRONTEND_URL}/payment/success?ref=${merchantReference}`;
+  payload.cancel_url = `${FRONTEND_URL}/payment/cancelled?ref=${merchantReference}`;
+  payload.notify_url = `${BACKEND_URL}/api/payments/webhook`;
+
+  // Customer info — must come before payment details per PayFast spec
+  if (nameFirst && String(nameFirst).trim())     payload.name_first    = String(nameFirst).trim();
+  if (nameLast  && String(nameLast).trim())      payload.name_last     = String(nameLast).trim();
+  if (emailAddress && String(emailAddress).trim()) payload.email_address = String(emailAddress).trim();
+
+  // Payment details
+  payload.m_payment_id = merchantReference;
+  payload.amount       = formatPayFastAmount(parsedAmount);
+
+  // item_name: strip em/en dashes (avoid multi-byte encoding edge cases), max 100 chars
+  const cleanItemName = String(itemName || 'Pest Control Service')
+    .replace(/[—–]/g, '-')
+    .trim()
+    .substring(0, 100);
+  payload.item_name = cleanItemName;
+
+  if (itemDescription && String(itemDescription).trim()) {
+    payload.item_description = String(itemDescription).trim().substring(0, 255);
+  }
+
+  return payload;
+}
+
 // ─── routes ─────────────────────────────────────────────────────────────────
 
 // GET /api/payments/debug-signature  (development only)
 router.get('/debug-signature', (req, res) => {
   if (!IS_DEV) return res.status(404).json({ error: 'Not found' });
 
-  const testRef    = 'SP-DEBUG-000000';
-  const testAmount = 120.00;
+  const testRef = 'SP-DEBUG-000000';
 
   const payload = buildPfPayload({
     merchantReference: testRef,
-    parsedAmount:      testAmount,
+    parsedAmount:      120,
     itemName:          'RoachGuard 360 - First Month Payment',
-    itemDescription:   'Debug test',
+    itemDescription:   'Booking #1 | Cockroaches',
     nameFirst:         'Test',
     nameLast:          'User',
     emailAddress:      'test@example.com',
   });
 
-  const sigString = (() => {
-    let s = '';
-    for (const key of Object.keys(payload)) {
-      const val = payload[key];
-      if (val === '' || val === null || val === undefined) continue;
-      s += `${key}=${encodeURIComponent(String(val).trim()).replace(/%20/g, '+')}&`;
-    }
-    s = s.slice(0, -1);
-    if (PAYFAST_PASSPHRASE && PAYFAST_PASSPHRASE.trim()) {
-      s += `&passphrase=${encodeURIComponent(PAYFAST_PASSPHRASE.trim()).replace(/%20/g, '+')}`;
-    }
-    return s;
-  })();
+  // Rebuild the query string the same way the signature function does
+  const { payfastEncode } = require('../utils/payfastSignature');
+  const filteredKeys = Object.keys(payload).filter(k => {
+    const v = payload[k];
+    return v !== null && v !== undefined && v !== '' && k !== 'signature';
+  });
+  const sigString = filteredKeys
+    .map(k => `${k}=${payfastEncode(String(payload[k]).trim())}`)
+    .join('&')
+    + (PAYFAST_PASSPHRASE && PAYFAST_PASSPHRASE.trim()
+      ? `&passphrase=${payfastEncode(PAYFAST_PASSPHRASE.trim())}`
+      : '');
 
-  const signature = generatePayFastSignature(payload, PAYFAST_PASSPHRASE || null);
+  const signature = generatePayFastSignature(payload, PAYFAST_PASSPHRASE || '');
 
   res.json({
-    mode:              PAYFAST_MODE,
-    payfast_url:       PAYFAST_URL,
-    frontend_url:      FRONTEND_URL,
-    backend_url:       BACKEND_URL,
-    configured:        isPfConfigured(),
-    merchant_id:       PAYFAST_MERCHANT_ID || '(not set)',
-    merchant_key_set:  !!PAYFAST_MERCHANT_KEY,
-    passphrase_set:    !!(PAYFAST_PASSPHRASE && PAYFAST_PASSPHRASE.trim()),
+    mode:             PAYFAST_MODE,
+    process_url:      PAYFAST_PROCESS_URL,
+    frontend_url:     FRONTEND_URL,
+    backend_url:      BACKEND_URL,
+    configured:       isPfConfigured(),
+    merchant_id:      PAYFAST_MERCHANT_ID || '(not set)',
+    merchant_key_set: !!PAYFAST_MERCHANT_KEY,
+    passphrase_set:   !!(PAYFAST_PASSPHRASE && PAYFAST_PASSPHRASE.trim()),
     payload,
-    signature_string:  sigString,
+    signature_string: sigString,
     signature,
   });
 });
@@ -183,7 +155,7 @@ router.post('/create', (req, res) => {
   if (!isPfConfigured()) {
     return res.status(503).json({
       success: false,
-      error: 'PayFast is not configured correctly. Please check merchant ID, merchant key, passphrase, and mode.',
+      error: 'PayFast is not configured correctly. Please check PAYFAST_MERCHANT_ID and PAYFAST_MERCHANT_KEY.',
     });
   }
 
@@ -195,7 +167,8 @@ router.post('/create', (req, res) => {
       INSERT INTO payments (booking_id, amount, gateway, payment_type, merchant_reference, item_name, item_description, name_first, name_last, email_address, status)
       VALUES (?, ?, 'payfast', ?, ?, ?, ?, ?, ?, ?, 'pending')
     `).run(
-      booking_id, parsedAmount,
+      booking_id,
+      parsedAmount,
       payment_type || 'once_off',
       merchantReference,
       item_name  || `Pest Control Service - Booking #${booking_id}`,
@@ -208,11 +181,11 @@ router.post('/create', (req, res) => {
     db.prepare(`UPDATE bookings SET payment_status = 'pending', payment_reference = ?, total_amount = ?, updated_at = datetime('now') WHERE id = ?`)
       .run(merchantReference, parsedAmount, booking_id);
 
-    // Build payload in correct PayFast field order
+    // Step 1: build payload in the correct PayFast field order
     const pfPayload = buildPfPayload({
       merchantReference,
       parsedAmount,
-      itemName:       item_name,
+      itemName:        item_name,
       itemDescription: item_description,
       nameFirst:       name_first,
       nameLast:        name_last,
@@ -220,23 +193,25 @@ router.post('/create', (req, res) => {
     });
 
     if (IS_DEV) {
-      console.log('[PayFast] Mode         :', PAYFAST_MODE);
-      console.log('[PayFast] Process URL  :', PAYFAST_URL);
-      console.log('[PayFast] Payload      :', { ...pfPayload, merchant_key: '***' });
+      console.log('[PayFast] Mode        :', PAYFAST_MODE);
+      console.log('[PayFast] Process URL :', PAYFAST_PROCESS_URL);
+      console.log('[PayFast] Payload     :', { ...pfPayload, merchant_key: '***' });
     }
 
-    // Generate signature AFTER payload is complete — do not modify payload afterwards
-    pfPayload.signature = generatePayFastSignature(pfPayload, PAYFAST_PASSPHRASE || null);
+    // Step 2: generate signature from the EXACT payload that will be submitted
+    // Nothing is added to or removed from pfPayload after this line
+    pfPayload.signature = generatePayFastSignature(pfPayload, PAYFAST_PASSPHRASE || '');
 
     if (IS_DEV) {
-      console.log('[PayFast] Signature    :', pfPayload.signature);
+      console.log('[PayFast] Signature   :', pfPayload.signature);
     }
 
+    // Step 3: return the complete signed payload to the frontend
     return res.json({
       success: true,
       data: {
         gateway:            'payfast',
-        url:                PAYFAST_URL,
+        url:                PAYFAST_PROCESS_URL,
         fields:             pfPayload,
         merchant_reference: merchantReference,
       },
@@ -259,19 +234,19 @@ router.post('/webhook', (req, res) => {
     const payment = db.prepare('SELECT * FROM payments WHERE merchant_reference = ?').get(merchantReference);
     if (!payment) return res.status(404).send('Payment not found');
 
-    // Verify ITN signature — iterate in the order fields arrived (req.body preserves order)
+    // Verify ITN signature — req.body preserves field order from PayFast
     const verifyData = { ...data };
     delete verifyData.signature;
-    const expectedSignature = generatePayFastSignature(verifyData, PAYFAST_PASSPHRASE || null);
+    const expectedSignature = generatePayFastSignature(verifyData, PAYFAST_PASSPHRASE || '');
 
     if (receivedSignature !== expectedSignature) {
-      console.error('[PayFast] ITN signature mismatch | ref:', merchantReference,
+      console.error('[PayFast] ITN mismatch | ref:', merchantReference,
         '| received:', receivedSignature, '| expected:', expectedSignature);
       return res.status(400).send('Invalid signature');
     }
 
-    const newStatus         = data.payment_status === 'COMPLETE' ? 'complete' : 'failed';
-    const bookingPmtStatus  = newStatus === 'complete' ? 'paid' : 'failed';
+    const newStatus        = data.payment_status === 'COMPLETE' ? 'complete' : 'failed';
+    const bookingPmtStatus = newStatus === 'complete' ? 'paid' : 'failed';
 
     db.prepare(`UPDATE payments SET status = ?, pf_payment_id = ?, gateway_data = ?, updated_at = datetime('now') WHERE merchant_reference = ?`)
       .run(newStatus, data.pf_payment_id || null, JSON.stringify(data), merchantReference);

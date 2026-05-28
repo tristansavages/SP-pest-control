@@ -48,7 +48,7 @@ export default function CheckoutPage() {
       const res = await api.post('/payments/create', {
         booking_id: booking.id,
         amount,
-        item_name: `${serviceCategory === 'Once-Off Service' ? 'Pest Control Service' : serviceCategory} — ${label}`,
+        item_name: `${serviceCategory === 'Once-Off Service' ? 'Pest Control Service' : serviceCategory} - ${label}`,
         item_description: `Booking #${booking.id} | ${booking.pest_problem}`,
         name_first: nameFirst,
         name_last: nameLast,
