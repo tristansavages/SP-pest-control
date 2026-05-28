@@ -1,18 +1,24 @@
 import { useState, useEffect } from 'react'
-import { Phone, MessageCircle, Menu, X, Shield } from 'lucide-react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { MessageCircle, Menu, X, Shield } from 'lucide-react'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
 
 const navLinks = [
-  { label: 'Home', href: '#home' },
-  { label: 'Services', href: '#services' },
-  { label: 'About', href: '#about' },
-  { label: 'How It Works', href: '#how-it-works' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/', type: 'page' },
+  { label: 'Residential', href: '/residential', type: 'page' },
+  { label: 'Commercial', href: '/commercial', type: 'page' },
+  { label: 'Services', href: '/services', type: 'page' },
+  { label: 'Plans', href: '/protection-plans', type: 'page' },
+  { label: 'Industries', href: '/industries', type: 'page' },
+  { label: 'About', href: '#about', type: 'scroll' },
+  { label: 'Contact', href: '#contact', type: 'scroll' },
 ]
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -20,10 +26,30 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const scrollTo = (href) => {
+  const handleNavClick = (link) => {
     setMenuOpen(false)
-    const el = document.querySelector(href)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
+    if (link.type === 'page') {
+      navigate(link.href)
+    } else {
+      // scroll link
+      const id = link.href.replace('#', '')
+      if (location.pathname === '/') {
+        const el = document.getElementById(id)
+        if (el) el.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        navigate('/' + link.href)
+      }
+    }
+  }
+
+  const handleBookClick = () => {
+    setMenuOpen(false)
+    if (location.pathname === '/') {
+      const el = document.getElementById('booking')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      navigate('/#booking')
+    }
   }
 
   return (
@@ -36,23 +62,23 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
 
           {/* Logo */}
-          <button onClick={() => scrollTo('#home')} className="flex items-center gap-2.5 group">
+          <Link to="/" className="flex items-center gap-2.5 group">
             <div className="w-9 h-9 rounded-xl bg-green-500 flex items-center justify-center shadow-lg">
               <Shield className="w-5 h-5 text-white" strokeWidth={2.5} />
             </div>
             <div className="leading-tight">
               <div className="text-white font-bold text-base tracking-tight">SP Pest Control</div>
-              <div className="text-green-400 text-[10px] font-medium uppercase tracking-widest">Brakpan</div>
+              <div className="text-green-400 text-[10px] font-medium uppercase tracking-widest">Professional Pest Control</div>
             </div>
-          </button>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               <button
                 key={link.href}
-                onClick={() => scrollTo(link.href)}
-                className="px-4 py-2 text-white/80 hover:text-white text-sm font-medium rounded-lg hover:bg-white/10 transition-all duration-200"
+                onClick={() => handleNavClick(link)}
+                className="px-3 py-2 text-white/80 hover:text-white text-sm font-medium rounded-lg hover:bg-white/10 transition-all duration-200"
               >
                 {link.label}
               </button>
@@ -66,13 +92,13 @@ export default function Header() {
               className="flex items-center gap-2 px-4 py-2 text-[#25D366] border border-[#25D366]/50 hover:border-[#25D366] hover:bg-[#25D366]/10 rounded-xl text-sm font-medium transition-all duration-200"
             >
               <MessageCircle className="w-4 h-4" />
-              WhatsApp
+              WhatsApp Us
             </button>
             <button
-              onClick={() => scrollTo('#booking')}
+              onClick={handleBookClick}
               className="flex items-center gap-2 px-5 py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-semibold transition-all duration-200 shadow-lg hover:shadow-green-500/25 hover:-translate-y-0.5"
             >
-              Book Now
+              Book a Service
             </button>
           </div>
 
@@ -93,7 +119,7 @@ export default function Header() {
             {navLinks.map((link) => (
               <button
                 key={link.href}
-                onClick={() => scrollTo(link.href)}
+                onClick={() => handleNavClick(link)}
                 className="w-full text-left px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 rounded-xl text-sm font-medium transition-all duration-200"
               >
                 {link.label}
@@ -108,18 +134,11 @@ export default function Header() {
                 WhatsApp Us
               </button>
               <button
-                onClick={() => scrollTo('#booking')}
+                onClick={handleBookClick}
                 className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-xl text-sm font-semibold transition-colors"
               >
-                Book Now
+                Book a Service
               </button>
-              <a
-                href="tel:0608117897"
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 border border-white/20 text-white rounded-xl text-sm font-semibold transition-colors hover:bg-white/10"
-              >
-                <Phone className="w-4 h-4" />
-                060 811 7897
-              </a>
             </div>
           </div>
         </div>

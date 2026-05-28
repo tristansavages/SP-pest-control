@@ -5,6 +5,9 @@ import FloatingWhatsApp from '../components/layout/FloatingWhatsApp'
 import Hero from '../components/home/Hero'
 import TrustBar from '../components/home/TrustBar'
 import Services from '../components/home/Services'
+import ProtectionPlans from '../components/home/ProtectionPlans'
+import CommercialSection from '../components/home/CommercialSection'
+import Industries from '../components/home/Industries'
 import EmergencyCTA from '../components/home/EmergencyCTA'
 import About from '../components/home/About'
 import WhyChooseUs from '../components/home/WhyChooseUs'
@@ -18,7 +21,7 @@ import Contact from '../components/home/Contact'
 
 export default function Home() {
   useEffect(() => {
-    document.title = 'Sp Pest Control Brakpan | Professional Pest Control | Available 24/7'
+    document.title = 'SP Pest Control | Residential & Commercial Pest Control Services'
   }, [])
 
   return (
@@ -28,6 +31,9 @@ export default function Home() {
         <Hero />
         <TrustBar />
         <Services />
+        <ProtectionPlans />
+        <CommercialSection />
+        <Industries />
         <EmergencyCTA />
         <About />
         <WhyChooseUs />

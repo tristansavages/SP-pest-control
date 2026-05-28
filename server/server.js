@@ -28,9 +28,11 @@ app.use('/api/gallery', require('./routes/gallery'));
 app.use('/api/testimonials', require('./routes/testimonials'));
 app.use('/api/contact', require('./routes/contact'));
 app.use('/api/dashboard', require('./routes/dashboard'));
+app.use('/api/plans', require('./routes/plans'));
+app.use('/api/industries', require('./routes/industries'));
 
 app.get('/api/health', (req, res) => {
-  res.json({ success: true, data: { status: 'Sp Pest Control API running', timestamp: new Date().toISOString() } });
+  res.json({ success: true, data: { status: 'SP Pest Control API running', timestamp: new Date().toISOString() } });
 });
 
 // Serve React frontend in production

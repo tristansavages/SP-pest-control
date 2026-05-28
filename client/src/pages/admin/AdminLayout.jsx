@@ -14,6 +14,8 @@ import {
   Shield,
   Bell,
   User,
+  CreditCard,
+  Building2,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -21,6 +23,8 @@ const navItems = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/admin/dashboard' },
   { label: 'Bookings', icon: Calendar, path: '/admin/bookings' },
   { label: 'Services', icon: Bug, path: '/admin/services' },
+  { label: 'Plans', icon: CreditCard, path: '/admin/plans' },
+  { label: 'Industries', icon: Building2, path: '/admin/industries-admin' },
   { label: 'Content', icon: FileText, path: '/admin/content' },
   { label: 'Gallery', icon: Image, path: '/admin/gallery' },
   { label: 'Testimonials', icon: Star, path: '/admin/testimonials' },
@@ -30,6 +34,8 @@ const pageTitles = {
   '/admin/dashboard': 'Dashboard Overview',
   '/admin/bookings': 'Booking Requests',
   '/admin/services': 'Manage Services',
+  '/admin/plans': 'Protection Plans',
+  '/admin/industries-admin': 'Industries',
   '/admin/content': 'Website Content',
   '/admin/gallery': 'Gallery Images',
   '/admin/testimonials': 'Testimonials / Reviews',

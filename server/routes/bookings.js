@@ -4,15 +4,27 @@ const db = require('../db/database');
 const authMiddleware = require('../middleware/auth');
 
 router.post('/', (req, res) => {
-  const { full_name, phone, email, address, property_type, pest_problem, preferred_date, preferred_time, urgency, message } = req.body;
-  if (!full_name || !phone || !address || !property_type || !pest_problem) {
-    return res.status(400).json({ success: false, error: 'Full name, phone, address, property type, and pest problem are required.' });
+  const { full_name, phone, email, address, customer_type, service_category, pest_problem, preferred_date, preferred_time, urgency, message } = req.body;
+  if (!full_name || !phone || !address || !pest_problem) {
+    return res.status(400).json({ success: false, error: 'Full name, phone, address, and pest problem are required.' });
   }
   try {
     const result = db.prepare(`
-      INSERT INTO bookings (full_name, phone, email, address, property_type, pest_problem, preferred_date, preferred_time, urgency, message)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).run(full_name, phone, email || null, address, property_type, pest_problem, preferred_date || null, preferred_time || null, urgency || 'normal', message || null);
+      INSERT INTO bookings (full_name, phone, email, address, customer_type, service_category, pest_problem, preferred_date, preferred_time, urgency, message)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+      full_name,
+      phone,
+      email || null,
+      address,
+      customer_type || 'Residential',
+      service_category || null,
+      pest_problem,
+      preferred_date || null,
+      preferred_time || null,
+      urgency || 'normal',
+      message || null
+    );
     const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(result.lastInsertRowid);
     res.status(201).json({ success: true, data: { booking } });
   } catch (err) {
@@ -31,6 +43,8 @@ router.get('/', authMiddleware, (req, res) => {
       completed: db.prepare("SELECT COUNT(*) as c FROM bookings WHERE status = 'completed'").get().c,
       cancelled: db.prepare("SELECT COUNT(*) as c FROM bookings WHERE status = 'cancelled'").get().c,
       urgent: db.prepare("SELECT COUNT(*) as c FROM bookings WHERE urgency IN ('urgent','emergency') AND status NOT IN ('completed','cancelled')").get().c,
+      commercial: db.prepare("SELECT COUNT(*) as c FROM bookings WHERE customer_type IN ('Commercial','Restaurant','School','Retail','Property Manager')").get().c,
+      plan_enquiries: db.prepare("SELECT COUNT(*) as c FROM bookings WHERE service_category IS NOT NULL AND service_category != ''").get().c,
     };
     res.json({ success: true, data: { bookings, stats } });
   } catch (err) {

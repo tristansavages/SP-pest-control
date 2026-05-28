@@ -1,14 +1,46 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Phone, MessageCircle, MapPin, Clock, CheckCircle, Loader2, AlertCircle } from 'lucide-react'
+import { MessageCircle, Clock, Shield, Building2, CheckCircle, Loader2, AlertCircle } from 'lucide-react'
 import { submitContact } from '../../utils/api'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
 
 const contactCards = [
-  { icon: Phone, title: 'Phone', value: '060 811 7897', sub: 'Click to call', href: 'tel:0608117897', color: 'bg-blue-50 text-blue-600', action: null },
-  { icon: MessageCircle, title: 'WhatsApp', value: '060 811 7897', sub: 'Open chat', href: null, color: 'bg-[#25D366]/10 text-[#25D366]', action: () => openWhatsApp(DEFAULT_WA_URL) },
-  { icon: MapPin, title: 'Address', value: '7527 Jumba Street', sub: 'Brakpan, 1520', href: 'https://maps.google.com/?q=7527+Jumba+Street+Brakpan', color: 'bg-slate-100 text-slate-600', action: null },
-  { icon: Clock, title: 'Hours', value: 'Open 24 Hours', sub: 'Available always', href: null, color: 'bg-green-50 text-green-600', action: null },
+  {
+    icon: MessageCircle,
+    title: 'WhatsApp',
+    value: 'Chat with us',
+    sub: 'Send a message now',
+    href: null,
+    color: 'bg-[#25D366]/10 text-[#25D366]',
+    action: () => openWhatsApp(DEFAULT_WA_URL),
+  },
+  {
+    icon: Clock,
+    title: 'Hours',
+    value: 'Available 24/7',
+    sub: 'Residential & commercial',
+    href: null,
+    color: 'bg-green-50 text-green-600',
+    action: null,
+  },
+  {
+    icon: Shield,
+    title: 'Residential',
+    value: 'Home Services',
+    sub: 'Once-off & protection plans',
+    href: null,
+    color: 'bg-blue-50 text-blue-600',
+    action: null,
+  },
+  {
+    icon: Building2,
+    title: 'Commercial',
+    value: 'Business Services',
+    sub: 'Restaurants, retail, schools',
+    href: null,
+    color: 'bg-purple-50 text-purple-600',
+    action: null,
+  },
 ]
 
 export default function Contact() {
@@ -40,7 +72,7 @@ export default function Contact() {
       await submitContact(form)
       setSubmitted(true)
     } catch (err) {
-      setServerError(err.response?.data?.error || 'Failed to send message. Please call us directly.')
+      setServerError(err.response?.data?.error || 'Failed to send message. Please try WhatsApp instead.')
     } finally {
       setLoading(false)
     }
@@ -60,13 +92,13 @@ export default function Contact() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 border border-green-100 rounded-full mb-4">
             <span className="text-green-600 text-xs font-bold uppercase tracking-widest">Get In Touch</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-4">Contact Sp Pest Control</h2>
-          <p className="text-slate-500 text-lg max-w-xl mx-auto">Have a question or need a quote? Get in touch — we're available 24/7.</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-4">Contact SP Pest Control</h2>
+          <p className="text-slate-500 text-lg max-w-xl mx-auto">Have a question or need a quote? Send us a message or chat on WhatsApp — we respond fast.</p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-10">
 
-          {/* Left: Contact Cards + Map */}
+          {/* Left: Contact Cards + Info Panel */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -91,21 +123,29 @@ export default function Contact() {
               })}
             </div>
 
-            {/* Map placeholder */}
-            <div className="bg-navy-900 rounded-2xl overflow-hidden h-48 flex flex-col items-center justify-center relative">
+            {/* Info Panel */}
+            <div className="bg-navy-900 rounded-2xl overflow-hidden p-6 relative">
               <div className="absolute inset-0 hero-grid opacity-50" />
-              <div className="relative z-10 text-center">
-                <MapPin className="w-8 h-8 text-green-400 mx-auto mb-2" />
-                <div className="text-white font-bold text-sm">7527 Jumba Street</div>
-                <div className="text-white/60 text-xs">Brakpan, 1520, South Africa</div>
-                <a
-                  href="https://maps.google.com/?q=7527+Jumba+Street+Brakpan+South+Africa"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1 px-4 py-2 bg-green-500 hover:bg-green-600 text-white text-xs font-semibold rounded-xl transition-colors"
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
+                    <Shield className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div>
+                    <div className="text-white font-bold text-sm">SP Pest Control</div>
+                    <div className="text-white/50 text-xs">Professional Pest Management</div>
+                  </div>
+                </div>
+                <p className="text-white/70 text-sm leading-relaxed mb-4">
+                  Serving residential and commercial clients with professional pest control solutions. Once-off treatments, monthly protection plans, and industry-specific programmes available.
+                </p>
+                <button
+                  onClick={() => openWhatsApp(DEFAULT_WA_URL)}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#25D366] hover:bg-[#1da851] text-white text-sm font-semibold rounded-xl transition-colors"
                 >
-                  View on Google Maps
-                </a>
+                  <MessageCircle className="w-4 h-4" />
+                  Chat on WhatsApp
+                </button>
               </div>
             </div>
           </motion.div>

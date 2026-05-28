@@ -22,11 +22,19 @@ router.get('/all', authMiddleware, (req, res) => {
 });
 
 router.post('/', authMiddleware, (req, res) => {
-  const { name, slug, description, icon, active, display_order } = req.body;
+  const { name, slug, description, icon, category, active, display_order } = req.body;
   if (!name) return res.status(400).json({ success: false, error: 'Service name is required.' });
   const slugVal = slug || name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   try {
-    const result = db.prepare('INSERT INTO services (name, slug, description, icon, active, display_order) VALUES (?, ?, ?, ?, ?, ?)').run(name, slugVal, description || null, icon || 'Bug', active !== undefined ? (active ? 1 : 0) : 1, display_order || 0);
+    const result = db.prepare('INSERT INTO services (name, slug, description, icon, category, active, display_order) VALUES (?, ?, ?, ?, ?, ?, ?)').run(
+      name,
+      slugVal,
+      description || null,
+      icon || 'Bug',
+      category || 'both',
+      active !== undefined ? (active ? 1 : 0) : 1,
+      display_order || 0
+    );
     const service = db.prepare('SELECT * FROM services WHERE id = ?').get(result.lastInsertRowid);
     res.status(201).json({ success: true, data: { service } });
   } catch (err) {
@@ -36,7 +44,7 @@ router.post('/', authMiddleware, (req, res) => {
 });
 
 router.put('/:id', authMiddleware, (req, res) => {
-  const { name, slug, description, icon, active, display_order } = req.body;
+  const { name, slug, description, icon, category, active, display_order } = req.body;
   try {
     const service = db.prepare('SELECT * FROM services WHERE id = ?').get(req.params.id);
     if (!service) return res.status(404).json({ success: false, error: 'Service not found.' });
@@ -46,10 +54,21 @@ router.put('/:id', authMiddleware, (req, res) => {
         slug = COALESCE(?, slug),
         description = CASE WHEN ? IS NOT NULL THEN ? ELSE description END,
         icon = COALESCE(?, icon),
+        category = COALESCE(?, category),
         active = COALESCE(?, active),
         display_order = COALESCE(?, display_order)
       WHERE id = ?
-    `).run(name || null, slug || null, description !== undefined ? description : null, description !== undefined ? description : null, icon || null, active !== undefined ? (active ? 1 : 0) : null, display_order !== undefined ? display_order : null, req.params.id);
+    `).run(
+      name || null,
+      slug || null,
+      description !== undefined ? description : null,
+      description !== undefined ? description : null,
+      icon || null,
+      category || null,
+      active !== undefined ? (active ? 1 : 0) : null,
+      display_order !== undefined ? display_order : null,
+      req.params.id
+    );
     const updated = db.prepare('SELECT * FROM services WHERE id = ?').get(req.params.id);
     res.json({ success: true, data: { service: updated } });
   } catch (err) {

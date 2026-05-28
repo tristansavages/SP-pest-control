@@ -3,18 +3,17 @@ import { Link } from 'react-router-dom';
 import {
   BookOpen,
   Plus,
-  CheckCircle,
   AlertTriangle,
-  MessageSquare,
   Eye,
   ExternalLink,
   ArrowUpRight,
   RefreshCw,
-  Layers,
+  Building2,
+  CreditCard,
   PhoneCall,
 } from 'lucide-react';
 import api from '../../utils/api';
-import { openWhatsApp } from '../../utils/whatsapp';
+import { openWhatsApp, buildWhatsAppUrl } from '../../utils/whatsapp';
 
 // ─── Skeleton loaders ────────────────────────────────────────────────────────
 
@@ -112,7 +111,7 @@ const BookingModal = ({ booking, onClose }) => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <p className="text-xs text-gray-500 uppercase font-semibold tracking-wide mb-1">Name</p>
-              <p className="text-sm font-semibold text-gray-800">{booking.name}</p>
+              <p className="text-sm font-semibold text-gray-800">{booking.full_name}</p>
             </div>
             <div>
               <p className="text-xs text-gray-500 uppercase font-semibold tracking-wide mb-1">Phone</p>
@@ -123,8 +122,8 @@ const BookingModal = ({ booking, onClose }) => {
               <p className="text-sm font-semibold text-gray-800">{booking.email || '—'}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 uppercase font-semibold tracking-wide mb-1">Property</p>
-              <p className="text-sm font-semibold text-gray-800 capitalize">{booking.property_type || '—'}</p>
+              <p className="text-xs text-gray-500 uppercase font-semibold tracking-wide mb-1">Customer Type</p>
+              <p className="text-sm font-semibold text-gray-800 capitalize">{booking.customer_type || '—'}</p>
             </div>
           </div>
           <div>
@@ -147,7 +146,13 @@ const BookingModal = ({ booking, onClose }) => {
           </div>
           {booking.phone && (
             <button
-              onClick={() => openWhatsApp(booking.phone, `Hi ${booking.name}, thank you for your enquiry with SP Pest Control regarding "${booking.pest_problem}". We'll be in touch shortly!`)}
+              onClick={() =>
+                openWhatsApp(
+                  buildWhatsAppUrl(
+                    `Hi ${booking.full_name}, thank you for your enquiry with SP Pest Control regarding "${booking.pest_problem}". We'll be in touch shortly!`
+                  )
+                )
+              }
               className="flex items-center gap-2 w-full justify-center px-4 py-2.5 rounded-xl bg-green-500 hover:bg-green-600 text-white text-sm font-semibold transition-colors"
             >
               <ExternalLink size={15} />
@@ -172,15 +177,10 @@ export default function Dashboard() {
   const fetchData = async (showRefresh = false) => {
     if (showRefresh) setRefreshing(true);
     try {
-      const [statsRes, bookingsRes] = await Promise.all([
-        api.get('/dashboard/stats'),
-        api.get('/bookings?limit=8&sort=created_at&order=desc'),
-      ]);
-      setStats(statsRes.data);
-      const bookingsData = Array.isArray(bookingsRes.data)
-        ? bookingsRes.data
-        : bookingsRes.data?.bookings || [];
-      setRecentBookings(bookingsData.slice(0, 8));
+      const res = await api.get('/dashboard/stats');
+      const { stats, recent_bookings } = res.data.data;
+      setStats(stats);
+      setRecentBookings(recent_bookings || []);
     } catch (err) {
       console.error('Dashboard fetch error:', err);
     } finally {
@@ -213,31 +213,31 @@ export default function Dashboard() {
       subtext: 'Pending response',
     },
     {
-      label: 'Completed',
-      value: stats?.completed_bookings,
-      icon: CheckCircle,
-      borderColor: 'border-l-emerald-500',
-      iconBg: 'bg-emerald-50',
-      iconColor: 'text-emerald-600',
-      subtext: 'Successfully closed',
+      label: 'Commercial Requests',
+      value: stats?.commercial_requests,
+      icon: Building2,
+      borderColor: 'border-l-purple-500',
+      iconBg: 'bg-purple-50',
+      iconColor: 'text-purple-600',
+      subtext: 'Businesses & industries',
     },
     {
-      label: 'Urgent',
+      label: 'Plan Enquiries',
+      value: stats?.plan_enquiries,
+      icon: CreditCard,
+      borderColor: 'border-l-amber-500',
+      iconBg: 'bg-amber-50',
+      iconColor: 'text-amber-600',
+      subtext: 'RatGuard, RoachGuard, AntArmor',
+    },
+    {
+      label: 'Urgent Requests',
       value: stats?.urgent_bookings,
       icon: AlertTriangle,
       borderColor: 'border-l-red-500',
       iconBg: 'bg-red-50',
       iconColor: 'text-red-600',
-      subtext: 'Needs immediate attention',
-    },
-    {
-      label: 'Unread Messages',
-      value: stats?.unread_messages,
-      icon: MessageSquare,
-      borderColor: 'border-l-purple-500',
-      iconBg: 'bg-purple-50',
-      iconColor: 'text-purple-600',
-      subtext: 'WhatsApp enquiries',
+      subtext: 'Needs attention',
     },
   ];
 
@@ -273,7 +273,7 @@ export default function Dashboard() {
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
           <div>
             <h3 className="text-base font-bold text-gray-900">Recent Booking Requests</h3>
-            <p className="text-xs text-gray-500 mt-0.5">Latest 8 bookings</p>
+            <p className="text-xs text-gray-500 mt-0.5">Latest bookings</p>
           </div>
           <Link
             to="/admin/bookings"
@@ -316,7 +316,7 @@ export default function Dashboard() {
                     className="hover:bg-gray-50/70 transition-colors group"
                   >
                     <td className="px-4 py-3">
-                      <span className="font-semibold text-gray-800 text-sm">{booking.name}</span>
+                      <span className="font-semibold text-gray-800 text-sm">{booking.full_name}</span>
                     </td>
                     <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{booking.phone}</td>
                     <td className="px-4 py-3 max-w-[180px]">
@@ -355,8 +355,9 @@ export default function Dashboard() {
                           <button
                             onClick={() =>
                               openWhatsApp(
-                                booking.phone,
-                                `Hi ${booking.name}, thank you for contacting SP Pest Control!`
+                                buildWhatsAppUrl(
+                                  `Hi ${booking.full_name}, thank you for contacting SP Pest Control!`
+                                )
                               )
                             }
                             title="Open WhatsApp"
@@ -379,7 +380,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center flex-shrink-0">
-            <Layers size={22} className="text-indigo-600" />
+            <Building2 size={22} className="text-indigo-600" />
           </div>
           <div>
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-0.5">
@@ -400,19 +401,19 @@ export default function Dashboard() {
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0">
-            <MessageSquare size={22} className="text-green-600" />
+            <CreditCard size={22} className="text-green-600" />
           </div>
           <div>
             <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-0.5">
-              WhatsApp Enquiries
+              Protection Plans
             </p>
             <p className="text-2xl font-black text-gray-900">
-              {stats?.whatsapp_enquiries ?? '—'}
+              {stats?.active_plans ?? '3'}
             </p>
-            <p className="text-xs text-gray-400">Total via WhatsApp</p>
+            <p className="text-xs text-gray-400">RatGuard, RoachGuard, AntArmor</p>
           </div>
           <Link
-            to="/admin/bookings"
+            to="/admin/plans"
             className="ml-auto text-green-600 hover:text-green-700 transition-colors"
           >
             <ArrowUpRight size={18} />

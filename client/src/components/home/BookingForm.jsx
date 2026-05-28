@@ -1,13 +1,68 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { CheckCircle, MessageCircle, RotateCcw, AlertCircle, Loader2 } from 'lucide-react'
 import { submitBooking } from '../../utils/api'
 import { buildBookingUrl, openWhatsApp } from '../../utils/whatsapp'
 
-const pestOptions = ['Cockroaches', 'Ants', 'Rodents / Rats', 'Termites', 'Bed Bugs', 'Fleas', 'Spiders', 'Flies', 'General Pests', 'Other']
-const timeOptions = ['Morning (7am – 10am)', 'Mid-Morning (10am – 12pm)', 'Afternoon (12pm – 3pm)', 'Late Afternoon (3pm – 6pm)', 'Evening (6pm – 8pm)', 'Flexible']
+const pestOptions = [
+  'Cockroaches',
+  'Ants',
+  'Bed Bugs',
+  'Rodents / Rats',
+  'Silverfish',
+  'Bees',
+  'Birds / Pigeons',
+  'Fleas & Ticks',
+  'Scorpions',
+  'Spiders',
+  'Wasps',
+  'Termites',
+  'Flies',
+  'General Pest Control',
+  'Other',
+]
 
-const initialForm = { full_name: '', phone: '', email: '', address: '', property_type: 'Residential', pest_problem: '', preferred_date: '', preferred_time: '', urgency: 'normal', message: '' }
+const timeOptions = [
+  'Morning (7am – 10am)',
+  'Mid-Morning (10am – 12pm)',
+  'Afternoon (12pm – 3pm)',
+  'Late Afternoon (3pm – 6pm)',
+  'Evening (6pm – 8pm)',
+  'Flexible',
+]
+
+const customerTypeOptions = [
+  'Residential',
+  'Commercial',
+  'Property Manager',
+  'School',
+  'Restaurant',
+  'Retail',
+  'Other',
+]
+
+const serviceCategoryOptions = [
+  'Once-Off Service',
+  'RatGuard Monthly',
+  'RoachGuard 360',
+  'AntArmor 365',
+  'Commercial Pest Control',
+  'Industry-Specific Pest Control',
+]
+
+const initialForm = {
+  full_name: '',
+  phone: '',
+  email: '',
+  address: '',
+  customer_type: 'Residential',
+  service_category: '',
+  pest_problem: '',
+  preferred_date: '',
+  preferred_time: '',
+  urgency: 'normal',
+  message: '',
+}
 
 export default function BookingForm() {
   const [form, setForm] = useState(initialForm)
@@ -28,6 +83,7 @@ export default function BookingForm() {
     if (!form.phone.trim()) errs.phone = 'Phone number is required'
     if (!form.address.trim()) errs.address = 'Address is required'
     if (!form.pest_problem) errs.pest_problem = 'Please select a pest problem'
+    if (!form.customer_type) errs.customer_type = 'Please select a customer type'
     return errs
   }
 
@@ -42,7 +98,7 @@ export default function BookingForm() {
       setSubmittedData({ ...form, id: res.data.data.booking.id })
       setSubmitted(true)
     } catch (err) {
-      setServerError(err.response?.data?.error || 'Failed to submit booking. Please try again or call us directly.')
+      setServerError(err.response?.data?.error || 'Failed to submit booking. Please try again or contact us via WhatsApp.')
     } finally {
       setLoading(false)
     }
@@ -69,9 +125,26 @@ export default function BookingForm() {
             <p className="text-slate-500 mb-8">We'll review your booking and contact you shortly to confirm your appointment.</p>
 
             <div className="bg-slate-50 rounded-2xl p-5 text-left mb-8 text-sm space-y-2">
-              <div className="flex justify-between"><span className="text-slate-400">Pest Problem</span><span className="font-semibold text-navy-900">{submittedData.pest_problem}</span></div>
-              <div className="flex justify-between"><span className="text-slate-400">Property Type</span><span className="font-semibold text-navy-900">{submittedData.property_type}</span></div>
-              <div className="flex justify-between"><span className="text-slate-400">Urgency</span><span className={`font-semibold capitalize ${submittedData.urgency === 'emergency' ? 'text-red-500' : submittedData.urgency === 'urgent' ? 'text-amber-500' : 'text-green-600'}`}>{submittedData.urgency}</span></div>
+              <div className="flex justify-between">
+                <span className="text-slate-400">Pest Problem</span>
+                <span className="font-semibold text-navy-900">{submittedData.pest_problem}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-slate-400">Customer Type</span>
+                <span className="font-semibold text-navy-900">{submittedData.customer_type}</span>
+              </div>
+              {submittedData.service_category && (
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Service Type</span>
+                  <span className="font-semibold text-navy-900">{submittedData.service_category}</span>
+                </div>
+              )}
+              <div className="flex justify-between">
+                <span className="text-slate-400">Urgency</span>
+                <span className={`font-semibold capitalize ${submittedData.urgency === 'emergency' ? 'text-red-500' : submittedData.urgency === 'urgent' ? 'text-amber-500' : 'text-green-600'}`}>
+                  {submittedData.urgency}
+                </span>
+              </div>
             </div>
 
             <div className="space-y-3">
@@ -124,7 +197,7 @@ export default function BookingForm() {
               <div className="w-3 h-3 rounded-full bg-white/20" />
               <div className="w-3 h-3 rounded-full bg-white/20" />
             </div>
-            <span className="text-white/60 text-sm font-medium">Pest Control Booking Form — Sp Pest Control, Brakpan</span>
+            <span className="text-white/60 text-sm font-medium">Pest Control Booking — SP Pest Control</span>
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-6">
@@ -152,15 +225,21 @@ export default function BookingForm() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">Address / Area <span className="text-red-500">*</span></label>
-                <input type="text" value={form.address} onChange={set('address')} placeholder="Brakpan or nearby area" className={inputCls('address')} />
+                <input type="text" value={form.address} onChange={set('address')} placeholder="Your suburb or area" className={inputCls('address')} />
                 {errors.address && <p className="text-red-500 text-xs mt-1">{errors.address}</p>}
               </div>
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Property Type</label>
-                <select value={form.property_type} onChange={set('property_type')} className={inputCls('property_type')}>
-                  <option value="Residential">Residential</option>
-                  <option value="Commercial">Commercial</option>
-                  <option value="Industrial">Industrial</option>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Customer Type <span className="text-red-500">*</span></label>
+                <select value={form.customer_type} onChange={set('customer_type')} className={inputCls('customer_type')}>
+                  {customerTypeOptions.map(o => <option key={o} value={o}>{o}</option>)}
+                </select>
+                {errors.customer_type && <p className="text-red-500 text-xs mt-1">{errors.customer_type}</p>}
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Service Type</label>
+                <select value={form.service_category} onChange={set('service_category')} className={inputCls('service_category')}>
+                  <option value="">Select service type...</option>
+                  {serviceCategoryOptions.map(o => <option key={o} value={o}>{o}</option>)}
                 </select>
               </div>
               <div>
@@ -187,14 +266,34 @@ export default function BookingForm() {
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Urgency</label>
               <div className="grid grid-cols-3 gap-3">
-                {[{ val: 'normal', label: 'Normal', sub: 'Within a few days', cls: 'border-slate-200 hover:border-green-300' }, { val: 'urgent', label: 'Urgent', sub: 'Within 24 hours', cls: 'border-amber-200 hover:border-amber-400' }, { val: 'emergency', label: 'Emergency', sub: 'ASAP', cls: 'border-red-200 hover:border-red-400' }].map(({ val, label, sub, cls }) => (
+                {[
+                  { val: 'normal', label: 'Normal', sub: 'Within a few days', cls: 'border-slate-200 hover:border-green-300' },
+                  { val: 'urgent', label: 'Urgent', sub: 'Within 24 hours', cls: 'border-amber-200 hover:border-amber-400' },
+                  { val: 'emergency', label: 'Emergency', sub: 'ASAP', cls: 'border-red-200 hover:border-red-400' },
+                ].map(({ val, label, sub, cls }) => (
                   <button
                     type="button"
                     key={val}
                     onClick={() => setForm(prev => ({ ...prev, urgency: val }))}
-                    className={`p-3 rounded-xl border-2 text-left transition-all duration-200 ${form.urgency === val ? (val === 'normal' ? 'bg-green-50 border-green-500' : val === 'urgent' ? 'bg-amber-50 border-amber-500' : 'bg-red-50 border-red-500') : cls}`}
+                    className={`p-3 rounded-xl border-2 text-left transition-all duration-200 ${
+                      form.urgency === val
+                        ? val === 'normal'
+                          ? 'bg-green-50 border-green-500'
+                          : val === 'urgent'
+                          ? 'bg-amber-50 border-amber-500'
+                          : 'bg-red-50 border-red-500'
+                        : cls
+                    }`}
                   >
-                    <div className={`font-bold text-sm ${form.urgency === val ? (val === 'normal' ? 'text-green-700' : val === 'urgent' ? 'text-amber-700' : 'text-red-700') : 'text-slate-700'}`}>{label}</div>
+                    <div className={`font-bold text-sm ${
+                      form.urgency === val
+                        ? val === 'normal'
+                          ? 'text-green-700'
+                          : val === 'urgent'
+                          ? 'text-amber-700'
+                          : 'text-red-700'
+                        : 'text-slate-700'
+                    }`}>{label}</div>
                     <div className="text-xs text-slate-400 mt-0.5">{sub}</div>
                   </button>
                 ))}
@@ -203,7 +302,13 @@ export default function BookingForm() {
 
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Message / Extra Details</label>
-              <textarea value={form.message} onChange={set('message')} placeholder="Describe your pest problem, how long you've had it, severity, etc." rows={4} className={inputCls('message') + ' resize-none'} />
+              <textarea
+                value={form.message}
+                onChange={set('message')}
+                placeholder="Describe your pest problem, how long you've had it, severity, etc."
+                rows={4}
+                className={inputCls('message') + ' resize-none'}
+              />
             </div>
 
             <button

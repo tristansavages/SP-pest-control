@@ -13,12 +13,14 @@ router.get('/stats', authMiddleware, (req, res) => {
     const active_services = db.prepare('SELECT COUNT(*) as c FROM services WHERE active = 1').get().c;
     const bookings_today = db.prepare("SELECT COUNT(*) as c FROM bookings WHERE date(created_at) = date('now')").get().c;
     const whatsapp_enquiries = db.prepare('SELECT COUNT(*) as c FROM bookings WHERE whatsapp_sent = 1').get().c;
+    const commercial_requests = db.prepare("SELECT COUNT(*) as c FROM bookings WHERE customer_type IN ('Commercial','Restaurant','School','Retail','Property Manager')").get().c;
+    const plan_enquiries = db.prepare("SELECT COUNT(*) as c FROM bookings WHERE service_category IS NOT NULL AND service_category != '' AND service_category != 'Once-Off Service'").get().c;
     const recent_bookings = db.prepare('SELECT * FROM bookings ORDER BY created_at DESC LIMIT 10').all();
 
     res.json({
       success: true,
       data: {
-        stats: { total_bookings, new_bookings, completed_bookings, urgent_bookings, unread_contacts, active_services, bookings_today, whatsapp_enquiries },
+        stats: { total_bookings, new_bookings, completed_bookings, urgent_bookings, unread_contacts, active_services, bookings_today, whatsapp_enquiries, commercial_requests, plan_enquiries },
         recent_bookings,
       },
     });

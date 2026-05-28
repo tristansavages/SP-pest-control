@@ -2,6 +2,11 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import Home from './pages/Home'
+import ServicesPage from './pages/ServicesPage'
+import ProtectionPlansPage from './pages/ProtectionPlansPage'
+import IndustriesPage from './pages/IndustriesPage'
+import ResidentialPage from './pages/ResidentialPage'
+import CommercialPage from './pages/CommercialPage'
 import AdminLogin from './pages/AdminLogin'
 import AdminLayout from './pages/admin/AdminLayout'
 import Dashboard from './pages/admin/Dashboard'
@@ -10,6 +15,8 @@ import ServicesManager from './pages/admin/ServicesManager'
 import ContentManager from './pages/admin/ContentManager'
 import GalleryManager from './pages/admin/GalleryManager'
 import TestimonialsManager from './pages/admin/TestimonialsManager'
+import PlansManager from './pages/admin/PlansManager'
+import IndustriesManager from './pages/admin/IndustriesManager'
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth()
@@ -31,6 +38,11 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/services" element={<ServicesPage />} />
+      <Route path="/protection-plans" element={<ProtectionPlansPage />} />
+      <Route path="/industries" element={<IndustriesPage />} />
+      <Route path="/residential" element={<ResidentialPage />} />
+      <Route path="/commercial" element={<CommercialPage />} />
       <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route
@@ -45,6 +57,8 @@ function AppRoutes() {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="bookings" element={<BookingsManager />} />
         <Route path="services" element={<ServicesManager />} />
+        <Route path="plans" element={<PlansManager />} />
+        <Route path="industries-admin" element={<IndustriesManager />} />
         <Route path="content" element={<ContentManager />} />
         <Route path="gallery" element={<GalleryManager />} />
         <Route path="testimonials" element={<TestimonialsManager />} />

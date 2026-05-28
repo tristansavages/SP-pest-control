@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion'
-import { Award, Users, Clock, MapPin, Shield } from 'lucide-react'
+import { Award, Users, Clock, Shield, Building2 } from 'lucide-react'
 
 const stats = [
-  { icon: Award, value: '10+', label: 'Years Experience', color: 'text-green-500' },
+  { icon: Award, value: '14+', label: 'Services Offered', color: 'text-green-500' },
   { icon: Users, value: '500+', label: 'Happy Customers', color: 'text-blue-500' },
-  { icon: Clock, value: '24/7', label: 'Emergency Service', color: 'text-amber-500' },
-  { icon: MapPin, value: '100%', label: 'Local Brakpan', color: 'text-green-500' },
-  { icon: Shield, value: 'Safe', label: 'Treatment Methods', color: 'text-emerald-500' },
+  { icon: Clock, value: '24/7', label: 'Available Always', color: 'text-amber-500' },
+  { icon: Shield, value: '3', label: 'Protection Plans', color: 'text-green-500' },
+  { icon: Building2, value: '4', label: 'Industries Served', color: 'text-emerald-500' },
 ]
 
 export default function TrustBar() {

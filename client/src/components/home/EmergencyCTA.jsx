@@ -1,9 +1,13 @@
 import { motion } from 'framer-motion'
-import { Phone, MessageCircle, Zap } from 'lucide-react'
+import { MessageCircle, Zap } from 'lucide-react'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
 import { stockImages } from '../../constants/stockImages'
 
 export default function EmergencyCTA() {
+  const scrollToBooking = () => {
+    document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <section className="relative overflow-hidden bg-green-700 py-14">
       <img
@@ -26,25 +30,24 @@ export default function EmergencyCTA() {
             </div>
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-white">
-            Pest Emergency? We Respond Fast — Available 24/7
+            Pest Problem? We Respond Fast — Available 24/7
           </h2>
           <p className="text-white/80 text-lg max-w-xl mx-auto">
-            Don't wait. Call or WhatsApp us right now for urgent pest control in Brakpan and surrounding areas.
+            Don't wait. Contact SP Pest Control now for urgent pest control. We handle residential and commercial pest emergencies.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="tel:0608117897"
+            <button
+              onClick={scrollToBooking}
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-white text-green-600 hover:bg-green-50 font-bold rounded-xl shadow-xl transition-all duration-200 hover:-translate-y-0.5"
             >
-              <Phone className="w-5 h-5" />
-              Call 060 811 7897
-            </a>
+              Book a Service
+            </button>
             <button
               onClick={() => openWhatsApp(DEFAULT_WA_URL)}
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 bg-navy-900 hover:bg-navy-800 text-white font-bold rounded-xl shadow-xl transition-all duration-200 hover:-translate-y-0.5"
             >
               <MessageCircle className="w-5 h-5" />
-              WhatsApp Emergency
+              WhatsApp SP Pest Control
             </button>
           </div>
         </motion.div>

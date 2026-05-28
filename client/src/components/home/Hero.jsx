@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion'
-import { Phone, MessageCircle, Clock, MapPin, Building2, Zap, Shield } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { MessageCircle, Building2, Zap, Shield, Home, Star } from 'lucide-react'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
 import { stockImages } from '../../constants/stockImages'
 
 const trustItems = [
-  { icon: Clock, label: 'Open 24 Hours' },
-  { icon: MapPin, label: 'Local Brakpan' },
-  { icon: Building2, label: 'Residential & Commercial' },
-  { icon: Zap, label: 'Fast Response' },
-  { icon: Shield, label: 'Safe Treatments' },
+  { icon: Home, label: 'Residential & Commercial' },
+  { icon: Zap, label: 'Once-Off Services' },
+  { icon: Shield, label: 'Monthly Protection Plans' },
+  { icon: Building2, label: 'Discreet Commercial Service' },
+  { icon: Star, label: 'Fast Response' },
+  { icon: Shield, label: 'Professional Pest Management' },
 ]
 
 const container = {
@@ -29,6 +31,8 @@ function WhatsAppIcon() {
 }
 
 export default function Hero() {
+  const navigate = useNavigate()
+
   const scrollToBooking = () => {
     document.querySelector('#booking')?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -54,7 +58,7 @@ export default function Hero() {
           <motion.div variants={item} className="flex justify-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/15 border border-green-500/30 rounded-full">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-green-400 text-sm font-semibold tracking-wide">Available 24/7 in Brakpan & Surrounding Areas</span>
+              <span className="text-green-400 text-sm font-semibold tracking-wide">Available 24/7 — Residential &amp; Commercial</span>
             </div>
           </motion.div>
 
@@ -63,19 +67,13 @@ export default function Hero() {
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight">
               Professional Pest Control
               <br />
-              <span className="relative inline-block">
-                in{' '}
-                <span className="text-green-400">Brakpan</span>
-              </span>
-              <br />
-              <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-white/70">Available 24/7</span>
+              <span className="text-green-400">for Homes &amp; Businesses</span>
             </h1>
           </motion.div>
 
           {/* Subheadline */}
           <motion.p variants={item} className="text-white/70 text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-            Fast, safe, and reliable pest control for homes and businesses.
-            We eliminate pests quickly and professionally so you have complete peace of mind.
+            SP Pest Control provides reliable residential and commercial pest control solutions designed to stop infestations fast and help prevent them from coming back.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -86,13 +84,12 @@ export default function Hero() {
             >
               Book Pest Control
             </button>
-            <a
-              href="tel:0608117897"
+            <button
+              onClick={() => navigate('/protection-plans')}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 hover:border-white/60 text-white text-base font-bold rounded-xl transition-all duration-200 hover:bg-white/10"
             >
-              <Phone className="w-5 h-5" />
-              060 811 7897
-            </a>
+              View Protection Plans
+            </button>
             <button
               onClick={() => openWhatsApp(DEFAULT_WA_URL)}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#25D366] hover:bg-[#1da851] text-white text-base font-bold rounded-xl shadow-2xl shadow-[#25D366]/20 transition-all duration-200 hover:-translate-y-0.5"

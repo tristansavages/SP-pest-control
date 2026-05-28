@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion'
-import { Phone } from 'lucide-react'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
 
 function WhatsAppIcon({ className }) {
@@ -26,8 +25,8 @@ export default function WhatsAppCTA() {
             </div>
           </div>
           <div className="flex-1 text-center lg:text-left">
-            <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">Prefer to Chat? Send Us a WhatsApp</h2>
-            <p className="text-white/70 text-lg mb-6">Quick, easy booking via WhatsApp. Available 24/7 — we respond fast.</p>
+            <h2 className="text-2xl sm:text-3xl font-black text-white mb-3">Prefer to Chat? Send SP Pest Control a WhatsApp</h2>
+            <p className="text-white/70 text-lg mb-6">Quick enquiries, service bookings, and plan questions via WhatsApp. We respond fast.</p>
             <div className="flex flex-col sm:flex-row items-center gap-3 justify-center lg:justify-start">
               <button
                 onClick={() => openWhatsApp(DEFAULT_WA_URL)}
@@ -36,13 +35,6 @@ export default function WhatsAppCTA() {
                 <WhatsAppIcon className="w-5 h-5" />
                 Open WhatsApp Chat
               </button>
-              <a
-                href="tel:0608117897"
-                className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/30 hover:border-white/60 text-white font-bold rounded-xl transition-all duration-200 hover:bg-white/10"
-              >
-                <Phone className="w-5 h-5" />
-                060 811 7897
-              </a>
             </div>
           </div>
         </motion.div>

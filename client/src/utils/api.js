@@ -60,4 +60,16 @@ export const deleteTestimonial = (id) => api.delete(`/testimonials/${id}`)
 
 export const getDashboardStats = () => api.get('/dashboard/stats')
 
+export const getPlans = () => api.get('/plans')
+export const getAllPlans = () => api.get('/plans/all')
+export const createPlan = (data) => api.post('/plans', data)
+export const updatePlan = (id, data) => api.put(`/plans/${id}`, data)
+export const deletePlan = (id) => api.delete(`/plans/${id}`)
+
+export const getIndustries = () => api.get('/industries')
+export const getAllIndustries = () => api.get('/industries/all')
+export const createIndustry = (data) => api.post('/industries', data)
+export const updateIndustry = (id, data) => api.put(`/industries/${id}`, data)
+export const deleteIndustry = (id) => api.delete(`/industries/${id}`)
+
 export default api

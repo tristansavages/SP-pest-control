@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '../../utils/api';
-import { openWhatsApp } from '../../utils/whatsapp';
+import { openWhatsApp, buildWhatsAppUrl } from '../../utils/whatsapp';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -141,8 +141,9 @@ const BookingModal = ({ booking, onClose, onUpdate }) => {
 
   const handleWhatsApp = () => {
     openWhatsApp(
-      booking.phone,
-      `Hi ${booking.name}, thank you for contacting SP Pest Control regarding your ${booking.pest_problem} issue. We would like to schedule a visit — when is a good time for you?`
+      buildWhatsAppUrl(
+        `Hi ${booking.full_name}, this is SP Pest Control following up on your enquiry.`
+      )
     );
   };
 
@@ -167,16 +168,22 @@ const BookingModal = ({ booking, onClose, onUpdate }) => {
           {/* Customer Info Grid */}
           <div className="grid grid-cols-2 gap-4">
             {[
-              { label: 'Full Name', value: booking.name },
+              { label: 'Full Name', value: booking.full_name },
               { label: 'Phone', value: booking.phone },
               { label: 'Email', value: booking.email || '—' },
-              { label: 'Property Type', value: booking.property_type || '—' },
+              { label: 'Customer Type', value: booking.customer_type || '—' },
             ].map(({ label, value }) => (
               <div key={label} className="bg-gray-50 rounded-xl p-3">
                 <p className="text-[10px] text-gray-500 uppercase font-semibold tracking-wider mb-1">{label}</p>
                 <p className="text-sm font-semibold text-gray-800">{value}</p>
               </div>
             ))}
+          </div>
+
+          {/* Service Category */}
+          <div className="bg-gray-50 rounded-xl p-3">
+            <p className="text-[10px] text-gray-500 uppercase font-semibold tracking-wider mb-1">Service Type</p>
+            <p className="text-sm font-semibold text-gray-800">{booking.service_category || 'Once-Off Service'}</p>
           </div>
 
           {/* Address */}
@@ -301,7 +308,8 @@ const DeleteDialog = ({ booking, onConfirm, onCancel, deleting }) => (
       </div>
       <h3 className="text-base font-bold text-gray-900 text-center mb-1">Delete Booking?</h3>
       <p className="text-sm text-gray-500 text-center mb-5">
-        This will permanently delete the booking from <span className="font-semibold text-gray-700">{booking?.name}</span>. This cannot be undone.
+        This will permanently delete the booking from{' '}
+        <span className="font-semibold text-gray-700">{booking?.full_name}</span>. This cannot be undone.
       </p>
       <div className="flex gap-3">
         <button
@@ -378,7 +386,7 @@ export default function BookingsManager() {
     const searchLower = search.toLowerCase();
     const matchSearch =
       !search ||
-      b.name?.toLowerCase().includes(searchLower) ||
+      b.full_name?.toLowerCase().includes(searchLower) ||
       b.phone?.toLowerCase().includes(searchLower) ||
       b.email?.toLowerCase().includes(searchLower);
     return matchStatus && matchSearch;
@@ -464,7 +472,7 @@ export default function BookingsManager() {
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-100">
-                {['#', 'Name', 'Phone', 'Email', 'Address', 'Pest Problem', 'Property', 'Date/Time', 'Urgency', 'Status', 'Actions'].map(
+                {['#', 'Name', 'Phone', 'Email', 'Address', 'Pest Problem', 'Customer Type', 'Date/Time', 'Urgency', 'Status', 'Actions'].map(
                   (h) => (
                     <th
                       key={h}
@@ -505,7 +513,7 @@ export default function BookingsManager() {
                   >
                     <td className="px-4 py-3 text-gray-400 text-xs font-mono">{idx + 1}</td>
                     <td className="px-4 py-3">
-                      <span className="font-semibold text-gray-800 whitespace-nowrap">{booking.name}</span>
+                      <span className="font-semibold text-gray-800 whitespace-nowrap">{booking.full_name}</span>
                     </td>
                     <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{booking.phone}</td>
                     <td className="px-4 py-3 text-gray-500 text-xs max-w-[140px] truncate">
@@ -518,7 +526,7 @@ export default function BookingsManager() {
                       <span className="text-gray-700 text-xs line-clamp-2">{booking.pest_problem}</span>
                     </td>
                     <td className="px-4 py-3 text-gray-500 text-xs capitalize whitespace-nowrap">
-                      {booking.property_type || '—'}
+                      {booking.customer_type || '—'}
                     </td>
                     <td className="px-4 py-3 text-gray-500 text-xs whitespace-nowrap">
                       {booking.preferred_date
@@ -556,8 +564,9 @@ export default function BookingsManager() {
                         <button
                           onClick={() =>
                             openWhatsApp(
-                              booking.phone,
-                              `Hi ${booking.name}, this is SP Pest Control following up on your enquiry.`
+                              buildWhatsAppUrl(
+                                `Hi ${booking.full_name}, this is SP Pest Control following up on your enquiry.`
+                              )
                             )
                           }
                           title="Open WhatsApp"

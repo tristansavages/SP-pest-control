@@ -1,21 +1,21 @@
 import { motion } from 'framer-motion'
-import { CheckCircle, Shield, Users, Clock, MapPin, Star } from 'lucide-react'
+import { CheckCircle, Shield, Users, Clock, Star } from 'lucide-react'
 import { stockImages } from '../../constants/stockImages'
 
 const highlights = [
-  'Fast Response Times Across Brakpan',
+  'Fast Response Times',
   'Safe, Professional Treatment Methods',
   'Residential & Commercial Services',
   'Available 24/7 for Emergencies',
-  'Experienced & Knowledgeable Local Team',
+  'Monthly Protection Plans Available',
   'Tailored Pest Control Solutions',
 ]
 
 const stats = [
   { icon: Clock, label: 'Available', value: '24/7' },
-  { icon: MapPin, label: 'Local Since', value: 'Day 1' },
+  { icon: Star, label: 'Services', value: '14+' },
   { icon: Users, label: 'Customers', value: '500+' },
-  { icon: Star, label: 'Satisfaction', value: '100%' },
+  { icon: Shield, label: 'Satisfaction', value: '100%' },
 ]
 
 export default function About() {
@@ -35,17 +35,17 @@ export default function About() {
               <span className="text-green-600 text-xs font-bold uppercase tracking-widest">About Us</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-6 leading-tight">
-              Your Trusted Local Pest Control Experts in Brakpan
+              Your Trusted Professional Pest Control Partner
             </h2>
             <div className="space-y-4 text-slate-600 leading-relaxed mb-8">
               <p>
-                Sp Pest Control provides reliable, professional pest control services across Brakpan and surrounding areas. We understand how stressful pest problems can be — whether it's cockroaches in your kitchen, rodents in your walls, or termites threatening your property.
+                SP Pest Control provides professional pest control services for homes, businesses, and industries. We understand how disruptive pest problems can be — whether it is cockroaches in your kitchen, rodents threatening your property, or termites causing structural damage.
               </p>
               <p>
-                Our experienced team uses safe, effective treatments to eliminate pests quickly and professionally. We take pride in our fast response times, attention to detail, and commitment to customer satisfaction.
+                Our experienced team uses safe, effective treatments to eliminate pests quickly and professionally. We take pride in fast response times, attention to detail, and a genuine commitment to results that last.
               </p>
               <p>
-                From once-off treatments to ongoing pest management contracts, we are here to help you maintain a clean, safe, and pest-free environment. With Sp Pest Control, you deal directly with a knowledgeable local team that genuinely cares about delivering results.
+                From once-off treatments to ongoing protection plans and commercial pest management programmes, we are here to help you maintain a clean, safe, and pest-free environment. With SP Pest Control, you work directly with a knowledgeable team that treats every job as a priority.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3">
@@ -87,8 +87,8 @@ export default function About() {
                   <Shield className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
-                  <div className="font-bold text-base">Why Sp Pest Control?</div>
-                  <div className="text-white/50 text-xs">Trusted locally in Brakpan</div>
+                  <div className="font-bold text-base">Why SP Pest Control?</div>
+                  <div className="text-white/50 text-xs">Trusted residential and commercial pest control</div>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4 mb-6">
@@ -111,8 +111,8 @@ export default function About() {
             </div>
 
             <div className="bg-green-50 border border-green-100 rounded-2xl p-6">
-              <div className="text-green-700 font-bold text-base mb-1">Serving Brakpan & Surrounding Areas</div>
-              <p className="text-green-600 text-sm">Including Springs, Boksburg, Benoni, Ekurhuleni and surrounding East Rand communities.</p>
+              <div className="text-green-700 font-bold text-base mb-1">Residential, Commercial &amp; Industry Pest Control</div>
+              <p className="text-green-600 text-sm">Serving homes, businesses, restaurants, schools, retail spaces, and multi-family properties.</p>
             </div>
           </motion.div>
         </div>

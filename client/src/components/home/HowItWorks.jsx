@@ -2,10 +2,34 @@ import { motion } from 'framer-motion'
 import { PhoneCall, ClipboardCheck, Wrench, CheckCircle } from 'lucide-react'
 
 const steps = [
-  { number: '01', icon: PhoneCall, title: 'Contact or Book Online', description: 'Fill in our booking form, give us a call on 060 811 7897, or send us a quick WhatsApp message. We respond fast.', color: 'bg-blue-500' },
-  { number: '02', icon: ClipboardCheck, title: 'Confirm the Problem', description: 'We confirm the pest issue, your property type, location, and urgency so we can prepare the right treatment.', color: 'bg-green-500' },
-  { number: '03', icon: Wrench, title: 'Professional Service', description: 'Our team attends to the pest problem using professional, effective, and safe treatment methods.', color: 'bg-amber-500' },
-  { number: '04', icon: CheckCircle, title: 'Peace of Mind', description: 'You receive reliable, professional service and support — leaving you with a cleaner, safer, pest-free space.', color: 'bg-emerald-500' },
+  {
+    number: '01',
+    icon: PhoneCall,
+    title: 'Contact or Book Online',
+    description: 'Fill in our booking form or send us a WhatsApp message. We respond quickly to all enquiries.',
+    color: 'bg-blue-500',
+  },
+  {
+    number: '02',
+    icon: ClipboardCheck,
+    title: 'Confirm the Problem',
+    description: 'We confirm the pest issue, your property type, location, and urgency so we can prepare the right treatment.',
+    color: 'bg-green-500',
+  },
+  {
+    number: '03',
+    icon: Wrench,
+    title: 'Professional Service',
+    description: 'Our team attends to the pest problem using professional, effective, and safe treatment methods.',
+    color: 'bg-amber-500',
+  },
+  {
+    number: '04',
+    icon: CheckCircle,
+    title: 'Peace of Mind',
+    description: 'You receive reliable, professional service and support — leaving you with a cleaner, safer, pest-free space.',
+    color: 'bg-emerald-500',
+  },
 ]
 
 export default function HowItWorks() {
@@ -23,7 +47,7 @@ export default function HowItWorks() {
           </div>
           <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Simple. Fast. Professional.</h2>
           <p className="text-white/60 text-lg max-w-xl mx-auto">
-            Getting your pest problem sorted is straightforward with Sp Pest Control.
+            Getting your pest problem sorted is straightforward with SP Pest Control.
           </p>
         </motion.div>
 

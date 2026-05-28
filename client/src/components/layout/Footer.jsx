@@ -1,15 +1,26 @@
-import { Phone, MessageCircle, MapPin, Clock, Shield, ChevronRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { MessageCircle, Clock, Shield, ChevronRight } from 'lucide-react'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
 
-const quickLinks = ['Home', 'Services', 'About', 'FAQ', 'Contact', 'Book Now']
-const services = ['Cockroach Control', 'Rodent & Rat Control', 'Termite Treatment', 'Bed Bug Treatment', 'General Pest Control', 'Commercial Pest Control']
+const quickLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Protection Plans', href: '/protection-plans' },
+  { label: 'Industries', href: '/industries' },
+  { label: 'About', href: '/#about' },
+  { label: 'Book Now', href: '/#booking' },
+]
+
+const services = [
+  'Cockroach Control',
+  'Ant Control',
+  'Rodent Control',
+  'Termite Treatment',
+  'Bed Bug Treatment',
+  'Commercial Pest Control',
+]
 
 export default function Footer() {
-  const scrollTo = (id) => {
-    const el = document.querySelector(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
     <footer className="bg-navy-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
@@ -23,20 +34,13 @@ export default function Footer() {
               </div>
               <div>
                 <div className="font-bold text-base">SP Pest Control</div>
-                <div className="text-green-400 text-[10px] uppercase tracking-widest">Brakpan</div>
+                <div className="text-green-400 text-[10px] uppercase tracking-widest">Professional Pest Control</div>
               </div>
             </div>
             <p className="text-white/60 text-sm leading-relaxed mb-5">
-              Professional pest control services in Brakpan and surrounding areas. Available 24 hours for all pest problems.
+              Professional residential and commercial pest control services. Protecting homes, businesses, and industries with reliable pest management solutions.
             </p>
             <div className="flex gap-3">
-              <a
-                href="tel:0608117897"
-                className="flex items-center gap-2 px-3 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm transition-colors"
-              >
-                <Phone className="w-4 h-4 text-green-400" />
-                <span className="text-white/80">Call</span>
-              </a>
               <button
                 onClick={() => openWhatsApp(DEFAULT_WA_URL)}
                 className="flex items-center gap-2 px-3 py-2 bg-[#25D366]/20 hover:bg-[#25D366]/30 rounded-lg text-sm transition-colors"
@@ -52,14 +56,14 @@ export default function Footer() {
             <h3 className="font-semibold text-sm uppercase tracking-wider text-white/40 mb-4">Quick Links</h3>
             <ul className="space-y-2">
               {quickLinks.map((link) => (
-                <li key={link}>
-                  <button
-                    onClick={() => scrollTo(`#${link.toLowerCase().replace(' ', '-')}`)}
+                <li key={link.label}>
+                  <Link
+                    to={link.href}
                     className="flex items-center gap-1 text-white/60 hover:text-green-400 text-sm transition-colors group"
                   >
                     <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -ml-1 transition-opacity" />
-                    {link}
-                  </button>
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -71,13 +75,13 @@ export default function Footer() {
             <ul className="space-y-2">
               {services.map((service) => (
                 <li key={service}>
-                  <button
-                    onClick={() => scrollTo('#services')}
+                  <Link
+                    to="/services"
                     className="flex items-center gap-1 text-white/60 hover:text-green-400 text-sm transition-colors group"
                   >
                     <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 -ml-1 transition-opacity" />
                     {service}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -87,40 +91,31 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-sm uppercase tracking-wider text-white/40 mb-4">Contact Us</h3>
             <div className="space-y-3">
-              <a href="tel:0608117897" className="flex items-start gap-3 group">
-                <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <Phone className="w-4 h-4 text-green-400" />
-                </div>
-                <div>
-                  <div className="text-white/40 text-xs uppercase tracking-wide">Phone</div>
-                  <div className="text-white/80 group-hover:text-green-400 text-sm transition-colors">060 811 7897</div>
-                </div>
-              </a>
               <button onClick={() => openWhatsApp(DEFAULT_WA_URL)} className="flex items-start gap-3 group w-full">
                 <div className="w-8 h-8 rounded-lg bg-[#25D366]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <MessageCircle className="w-4 h-4 text-[#25D366]" />
                 </div>
                 <div className="text-left">
                   <div className="text-white/40 text-xs uppercase tracking-wide">WhatsApp</div>
-                  <div className="text-white/80 group-hover:text-[#25D366] text-sm transition-colors">060 811 7897</div>
+                  <div className="text-white/80 group-hover:text-[#25D366] text-sm transition-colors">Chat on WhatsApp</div>
                 </div>
               </button>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <MapPin className="w-4 h-4 text-white/60" />
-                </div>
-                <div>
-                  <div className="text-white/40 text-xs uppercase tracking-wide">Address</div>
-                  <div className="text-white/80 text-sm">7527 Jumba Street, Brakpan, 1520</div>
-                </div>
-              </div>
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <Clock className="w-4 h-4 text-white/60" />
                 </div>
                 <div>
                   <div className="text-white/40 text-xs uppercase tracking-wide">Hours</div>
-                  <div className="text-green-400 text-sm font-semibold">Open 24 Hours</div>
+                  <div className="text-green-400 text-sm font-semibold">Available 24/7</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Shield className="w-4 h-4 text-white/60" />
+                </div>
+                <div>
+                  <div className="text-white/40 text-xs uppercase tracking-wide">Services</div>
+                  <div className="text-white/80 text-sm">Residential &amp; Commercial</div>
                 </div>
               </div>
             </div>
@@ -129,10 +124,10 @@ export default function Footer() {
 
         <div className="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/40 text-sm">
-            © {new Date().getFullYear()} Sp Pest Control. All rights reserved.
+            &copy; {new Date().getFullYear()} SP Pest Control. All rights reserved.
           </p>
           <p className="text-white/40 text-sm">
-            7527 Jumba Street, Brakpan, 1520 · Pest Control Services
+            Professional Residential &amp; Commercial Pest Control
           </p>
         </div>
       </div>

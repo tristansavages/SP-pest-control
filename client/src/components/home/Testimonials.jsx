@@ -3,10 +3,28 @@ import { motion } from 'framer-motion'
 import { Star, Quote } from 'lucide-react'
 import { getTestimonials } from '../../utils/api'
 
-const fallback = [
-  { id: 1, name: 'Thabo Nkosi', location: 'Brakpan', rating: 5, review: 'Excellent service! Sp Pest Control responded within hours and completely sorted out our cockroach problem. Very professional and thorough. Highly recommend.' },
-  { id: 2, name: 'Sarah van der Merwe', location: 'Springs', rating: 5, review: 'We had a serious rodent problem in our warehouse. They came quickly, sealed the entry points, and the problem was fully resolved. Great work.' },
-  { id: 3, name: 'Priya Naidoo', location: 'Brakpan East', rating: 5, review: 'Called them late at night for an urgent bed bug issue. Available and came out next morning. Very thorough treatment and great communication throughout.' },
+const defaultTestimonials = [
+  {
+    id: 1,
+    name: 'Sarah Mitchell',
+    location: 'Residential Client',
+    rating: 5,
+    review: 'SP Pest Control responded quickly and completely resolved our cockroach problem. Professional, thorough, and they explained everything clearly. Highly recommended.',
+  },
+  {
+    id: 2,
+    name: 'David Roets',
+    location: 'Commercial Client',
+    rating: 5,
+    review: 'We use SP Pest Control for our warehouse and have been impressed throughout. Reliable, discreet, and the reporting after each visit helps with our compliance requirements.',
+  },
+  {
+    id: 3,
+    name: 'Priya Naidoo',
+    location: 'Residential Client',
+    rating: 5,
+    review: 'Called for an urgent bed bug issue and they were available the following morning. Very thorough, excellent communication, and the problem was resolved completely.',
+  },
 ]
 
 function StarRating({ rating }) {
@@ -20,7 +38,7 @@ function StarRating({ rating }) {
 }
 
 export default function Testimonials() {
-  const [testimonials, setTestimonials] = useState(fallback)
+  const [testimonials, setTestimonials] = useState(defaultTestimonials)
 
   useEffect(() => {
     getTestimonials()
@@ -42,8 +60,8 @@ export default function Testimonials() {
               {Array.from({ length: 5 }).map((_, i) => <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />)}
             </div>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-4">What Our Customers Say</h2>
-          <p className="text-slate-500 text-lg max-w-xl mx-auto">Real feedback from real customers in Brakpan and surrounding areas.</p>
+          <h2 className="text-3xl sm:text-4xl font-black text-navy-900 mb-4">What Our Customers Say About SP Pest Control</h2>
+          <p className="text-slate-500 text-lg max-w-xl mx-auto">Real feedback from residential and commercial clients.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
