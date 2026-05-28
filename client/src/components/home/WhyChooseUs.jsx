@@ -6,7 +6,7 @@ const features = [
     icon: Clock,
     title: 'Available 24/7',
     description: 'Round-the-clock pest control service for urgent and non-urgent pest problems. Contact us any time.',
-    color: 'bg-blue-50 text-blue-600',
+    color: 'bg-green-50 text-green-600',
   },
   {
     icon: Shield,
@@ -18,31 +18,31 @@ const features = [
     icon: Award,
     title: 'Safe & Effective Treatments',
     description: 'Professional-grade treatments that eliminate pests effectively and are applied safely by trained technicians.',
-    color: 'bg-emerald-50 text-emerald-600',
+    color: 'bg-green-50 text-green-600',
   },
   {
     icon: Building2,
     title: 'Monthly Protection Plans',
     description: 'Our RatGuard, RoachGuard, and AntArmor plans provide proactive, year-round pest protection at a predictable monthly cost.',
-    color: 'bg-purple-50 text-purple-600',
+    color: 'bg-green-50 text-green-600',
   },
   {
     icon: Zap,
     title: 'Fast Response Times',
     description: 'We understand urgency. Contact us and we respond quickly to assess and treat your pest problem professionally.',
-    color: 'bg-amber-50 text-amber-600',
+    color: 'bg-green-50 text-green-600',
   },
   {
     icon: Award,
     title: 'Professional Service',
     description: 'A reliable team that treats every job with the same level of care and attention regardless of the size of the problem.',
-    color: 'bg-rose-50 text-rose-600',
+    color: 'bg-green-50 text-green-600',
   },
   {
     icon: MessageCircle,
     title: 'Easy WhatsApp Enquiries',
     description: 'Book a service, enquire about a plan, or ask a question instantly via WhatsApp. Fast, convenient, and always available.',
-    color: 'bg-teal-50 text-teal-600',
+    color: 'bg-green-50 text-green-600',
   },
 ]
 

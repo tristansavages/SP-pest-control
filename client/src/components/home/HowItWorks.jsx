@@ -7,7 +7,7 @@ const steps = [
     icon: PhoneCall,
     title: 'Contact or Book Online',
     description: 'Fill in our booking form or send us a WhatsApp message. We respond quickly to all enquiries.',
-    color: 'bg-blue-500',
+    color: 'bg-green-500',
   },
   {
     number: '02',
@@ -21,14 +21,14 @@ const steps = [
     icon: Wrench,
     title: 'Professional Service',
     description: 'Our team attends to the pest problem using professional, effective, and safe treatment methods.',
-    color: 'bg-amber-500',
+    color: 'bg-green-500',
   },
   {
     number: '04',
     icon: CheckCircle,
     title: 'Peace of Mind',
     description: 'You receive reliable, professional service and support — leaving you with a cleaner, safer, pest-free space.',
-    color: 'bg-emerald-500',
+    color: 'bg-green-500',
   },
 ]
 

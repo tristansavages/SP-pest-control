@@ -29,7 +29,7 @@ const contactCards = [
     value: 'Home Services',
     sub: 'Once-off & protection plans',
     href: null,
-    color: 'bg-blue-50 text-blue-600',
+    color: 'bg-green-50 text-green-600',
     action: null,
   },
   {
@@ -38,7 +38,7 @@ const contactCards = [
     value: 'Business Services',
     sub: 'Restaurants, retail, schools',
     href: null,
-    color: 'bg-purple-50 text-purple-600',
+    color: 'bg-green-50 text-green-600',
     action: null,
   },
 ]
