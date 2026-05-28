@@ -8,6 +8,8 @@ client/dist/
 
 # Database (ephemeral on Heroku - recreated on start)
 server/db/jbpestcontrol.db
+server/db/jbpestcontrol.db-shm
+server/db/jbpestcontrol.db-wal
 
 # Uploads (ephemeral on Heroku)
 server/uploads/*
