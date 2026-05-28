@@ -140,11 +140,20 @@ export default function CheckoutPage() {
             </div>
 
             {/* Secure notice */}
-            <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-100 rounded-xl text-sm text-green-800">
-              <Shield size={18} className="text-green-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="font-semibold text-green-900">Secure & Encrypted Payment</p>
-                <p className="text-green-700 text-xs mt-0.5">Payments are processed securely via PayFast. Your card details are never stored by SP Pest Control.</p>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 bg-green-50 border border-green-100 rounded-xl text-sm text-green-800">
+              <div className="flex items-start gap-3 flex-1">
+                <Shield size={18} className="text-green-600 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-green-900">Secure & Encrypted Payment</p>
+                  <p className="text-green-700 text-xs mt-0.5">Payments are processed securely via PayFast. Your card details are never stored by SP Pest Control.</p>
+                </div>
+              </div>
+              <div className="flex-shrink-0 rounded-lg bg-white px-3 py-2 shadow-sm border border-white/70">
+                <img
+                  src="/payfast-logo.png"
+                  alt="PayFast by Network"
+                  className="h-8 w-auto object-contain"
+                />
               </div>
             </div>
           </div>
