@@ -16,11 +16,13 @@ router.get('/stats', authMiddleware, (req, res) => {
     const commercial_requests = db.prepare("SELECT COUNT(*) as c FROM bookings WHERE customer_type IN ('Commercial','Restaurant','School','Retail','Property Manager')").get().c;
     const plan_enquiries = db.prepare("SELECT COUNT(*) as c FROM bookings WHERE service_category IS NOT NULL AND service_category != '' AND service_category != 'Once-Off Service'").get().c;
     const recent_bookings = db.prepare('SELECT * FROM bookings ORDER BY created_at DESC LIMIT 10').all();
+    const total_revenue = db.prepare("SELECT COALESCE(SUM(amount), 0) as v FROM payments WHERE status = 'complete'").get().v;
+    const pending_payments = db.prepare("SELECT COUNT(*) as c FROM payments WHERE status = 'pending'").get().c;
 
     res.json({
       success: true,
       data: {
-        stats: { total_bookings, new_bookings, completed_bookings, urgent_bookings, unread_contacts, active_services, bookings_today, whatsapp_enquiries, commercial_requests, plan_enquiries },
+        stats: { total_bookings, new_bookings, completed_bookings, urgent_bookings, unread_contacts, active_services, bookings_today, whatsapp_enquiries, commercial_requests, plan_enquiries, total_revenue, pending_payments },
         recent_bookings,
       },
     });

@@ -4,14 +4,14 @@ const db = require('../db/database');
 const authMiddleware = require('../middleware/auth');
 
 router.post('/', (req, res) => {
-  const { full_name, phone, email, address, customer_type, service_category, pest_problem, preferred_date, preferred_time, urgency, message } = req.body;
+  const { full_name, phone, email, address, customer_type, service_category, pest_problem, preferred_date, preferred_time, urgency, message, payment_option } = req.body;
   if (!full_name || !phone || !address || !pest_problem) {
     return res.status(400).json({ success: false, error: 'Full name, phone, address, and pest problem are required.' });
   }
   try {
     const result = db.prepare(`
-      INSERT INTO bookings (full_name, phone, email, address, customer_type, service_category, pest_problem, preferred_date, preferred_time, urgency, message)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO bookings (full_name, phone, email, address, customer_type, service_category, pest_problem, preferred_date, preferred_time, urgency, message, payment_option)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       full_name,
       phone,
@@ -23,7 +23,8 @@ router.post('/', (req, res) => {
       preferred_date || null,
       preferred_time || null,
       urgency || 'normal',
-      message || null
+      message || null,
+      payment_option || 'quote_first'
     );
     const booking = db.prepare('SELECT * FROM bookings WHERE id = ?').get(result.lastInsertRowid);
     res.status(201).json({ success: true, data: { booking } });

@@ -16,6 +16,7 @@ import {
   User,
   CreditCard,
   Building2,
+  Banknote,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -24,6 +25,7 @@ const navItems = [
   { label: 'Bookings', icon: Calendar, path: '/admin/bookings' },
   { label: 'Services', icon: Bug, path: '/admin/services' },
   { label: 'Plans', icon: CreditCard, path: '/admin/plans' },
+  { label: 'Payments', icon: Banknote, path: '/admin/payments' },
   { label: 'Industries', icon: Building2, path: '/admin/industries-admin' },
   { label: 'Content', icon: FileText, path: '/admin/content' },
   { label: 'Gallery', icon: Image, path: '/admin/gallery' },
@@ -35,6 +37,7 @@ const pageTitles = {
   '/admin/bookings': 'Booking Requests',
   '/admin/services': 'Manage Services',
   '/admin/plans': 'Protection Plans',
+  '/admin/payments': 'Payments & Revenue',
   '/admin/industries-admin': 'Industries',
   '/admin/content': 'Website Content',
   '/admin/gallery': 'Gallery Images',

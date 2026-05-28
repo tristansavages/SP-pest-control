@@ -60,6 +60,12 @@ export const deleteTestimonial = (id) => api.delete(`/testimonials/${id}`)
 
 export const getDashboardStats = () => api.get('/dashboard/stats')
 
+export const createPayment = (data) => api.post('/payments/create', data)
+export const getPayments = () => api.get('/payments')
+export const getPayment = (id) => api.get(`/payments/${id}`)
+export const updatePayment = (id, data) => api.put(`/payments/${id}`, data)
+export const getRevenueSummary = () => api.get('/payments/revenue-summary')
+
 export const getPlans = () => api.get('/plans')
 export const getAllPlans = () => api.get('/plans/all')
 export const createPlan = (data) => api.post('/plans', data)

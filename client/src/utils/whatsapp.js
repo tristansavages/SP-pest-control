@@ -43,4 +43,21 @@ export const openWhatsApp = (url) => {
   window.open(url, '_blank', 'noopener,noreferrer')
 }
 
+export const buildPaymentPaidUrl = (data) => {
+  const message = `Hi SP Pest Control, I have successfully paid for my booking.
+
+Booking ID: #${data.booking_id || ''}
+Payment Reference: ${data.merchant_reference || ''}
+Amount Paid: R${Number(data.amount || 0).toFixed(2)}
+Service: ${data.item_name || ''}
+
+Please confirm my booking and contact me with the service details. Thank you!`
+  return buildWhatsAppUrl(message)
+}
+
+export const buildPaymentFailedUrl = (data) => {
+  const message = `Hi SP Pest Control, my online payment for booking #${data.booking_id || ''} (Reference: ${data.merchant_reference || ''}) did not complete. I would like to arrange an alternative payment method. Please contact me.`
+  return buildWhatsAppUrl(message)
+}
+
 export const DEFAULT_WA_URL = buildWhatsAppUrl(DEFAULT_MESSAGE)

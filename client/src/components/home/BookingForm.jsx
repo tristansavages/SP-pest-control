@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { CheckCircle, MessageCircle, RotateCcw, AlertCircle, Loader2 } from 'lucide-react'
+import { CheckCircle, MessageCircle, RotateCcw, AlertCircle, Loader2, CreditCard, FileText, Clock } from 'lucide-react'
 import { submitBooking } from '../../utils/api'
 import { buildBookingUrl, openWhatsApp } from '../../utils/whatsapp'
 
@@ -50,6 +51,12 @@ const serviceCategoryOptions = [
   'Industry-Specific Pest Control',
 ]
 
+const paymentOptions = [
+  { val: 'quote_first', label: 'Request a Quote First', sub: 'We\'ll contact you with pricing', icon: FileText, color: 'green' },
+  { val: 'pay_now', label: 'Pay Deposit Online Now', sub: 'Secure card payment via PayFast', icon: CreditCard, color: 'blue' },
+  { val: 'pay_after', label: 'Pay After Confirmation', sub: 'Pay once booking is confirmed', icon: Clock, color: 'amber' },
+]
+
 const initialForm = {
   full_name: '',
   phone: '',
@@ -62,9 +69,11 @@ const initialForm = {
   preferred_time: '',
   urgency: 'normal',
   message: '',
+  payment_option: 'quote_first',
 }
 
 export default function BookingForm() {
+  const navigate = useNavigate()
   const [form, setForm] = useState(initialForm)
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
@@ -95,7 +104,12 @@ export default function BookingForm() {
     setServerError('')
     try {
       const res = await submitBooking(form)
-      setSubmittedData({ ...form, id: res.data.data.booking.id })
+      const bookingData = res.data.data.booking
+      if (form.payment_option === 'pay_now') {
+        navigate(`/payment/checkout/${bookingData.id}`, { state: { booking: bookingData } })
+        return
+      }
+      setSubmittedData({ ...form, id: bookingData.id })
       setSubmitted(true)
     } catch (err) {
       setServerError(err.response?.data?.error || 'Failed to submit booking. Please try again or contact us via WhatsApp.')
@@ -301,6 +315,44 @@ export default function BookingForm() {
             </div>
 
             <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Payment Preference</label>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {paymentOptions.map(({ val, label, sub, icon: Icon, color }) => {
+                  const active = form.payment_option === val
+                  const activeCls = {
+                    green: 'bg-green-50 border-green-500',
+                    blue: 'bg-blue-50 border-blue-500',
+                    amber: 'bg-amber-50 border-amber-500',
+                  }[color]
+                  const textCls = {
+                    green: 'text-green-700',
+                    blue: 'text-blue-700',
+                    amber: 'text-amber-700',
+                  }[color]
+                  const iconBg = {
+                    green: 'bg-green-100 text-green-600',
+                    blue: 'bg-blue-100 text-blue-600',
+                    amber: 'bg-amber-100 text-amber-600',
+                  }[color]
+                  return (
+                    <button
+                      type="button"
+                      key={val}
+                      onClick={() => setForm(prev => ({ ...prev, payment_option: val }))}
+                      className={`p-3 rounded-xl border-2 text-left transition-all duration-200 ${active ? activeCls : 'border-slate-200 hover:border-slate-300'}`}
+                    >
+                      <div className={`w-7 h-7 rounded-lg flex items-center justify-center mb-2 ${active ? iconBg : 'bg-slate-100 text-slate-400'}`}>
+                        <Icon size={14} />
+                      </div>
+                      <div className={`font-bold text-xs ${active ? textCls : 'text-slate-700'}`}>{label}</div>
+                      <div className="text-xs text-slate-400 mt-0.5 leading-tight">{sub}</div>
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Message / Extra Details</label>
               <textarea
                 value={form.message}
@@ -316,7 +368,11 @@ export default function BookingForm() {
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 py-4 bg-green-500 hover:bg-green-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold text-base rounded-xl shadow-lg shadow-green-500/20 transition-all duration-200 hover:-translate-y-0.5"
             >
-              {loading ? <><Loader2 className="w-5 h-5 animate-spin" /> Submitting...</> : 'Submit Booking Request'}
+              {loading ? (
+                <><Loader2 className="w-5 h-5 animate-spin" /> Submitting...</>
+              ) : form.payment_option === 'pay_now' ? (
+                <><CreditCard className="w-5 h-5" /> Continue to Secure Payment</>
+              ) : 'Submit Booking Request'}
             </button>
             <p className="text-center text-slate-400 text-xs">We'll contact you within a few hours to confirm your booking.</p>
           </form>

@@ -17,6 +17,11 @@ import GalleryManager from './pages/admin/GalleryManager'
 import TestimonialsManager from './pages/admin/TestimonialsManager'
 import PlansManager from './pages/admin/PlansManager'
 import IndustriesManager from './pages/admin/IndustriesManager'
+import PaymentsManager from './pages/admin/PaymentsManager'
+import CheckoutPage from './pages/payment/CheckoutPage'
+import PaymentSuccess from './pages/payment/PaymentSuccess'
+import PaymentCancelled from './pages/payment/PaymentCancelled'
+import PaymentFailed from './pages/payment/PaymentFailed'
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth()
@@ -43,6 +48,10 @@ function AppRoutes() {
       <Route path="/industries" element={<IndustriesPage />} />
       <Route path="/residential" element={<ResidentialPage />} />
       <Route path="/commercial" element={<CommercialPage />} />
+      <Route path="/payment/checkout/:bookingId" element={<CheckoutPage />} />
+      <Route path="/payment/success" element={<PaymentSuccess />} />
+      <Route path="/payment/cancelled" element={<PaymentCancelled />} />
+      <Route path="/payment/failed" element={<PaymentFailed />} />
       <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route
@@ -59,6 +68,7 @@ function AppRoutes() {
         <Route path="services" element={<ServicesManager />} />
         <Route path="plans" element={<PlansManager />} />
         <Route path="industries-admin" element={<IndustriesManager />} />
+        <Route path="payments" element={<PaymentsManager />} />
         <Route path="content" element={<ContentManager />} />
         <Route path="gallery" element={<GalleryManager />} />
         <Route path="testimonials" element={<TestimonialsManager />} />

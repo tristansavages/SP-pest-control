@@ -33,6 +33,10 @@ db.exec(`
     status TEXT DEFAULT 'new',
     internal_notes TEXT,
     whatsapp_sent INTEGER DEFAULT 0,
+    payment_option TEXT DEFAULT 'quote_first',
+    payment_status TEXT DEFAULT 'not_applicable',
+    total_amount REAL,
+    payment_reference TEXT,
     created_at TEXT DEFAULT (datetime('now')),
     updated_at TEXT DEFAULT (datetime('now'))
   );
@@ -116,7 +120,52 @@ db.exec(`
     display_order INTEGER DEFAULT 0,
     created_at TEXT DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS payments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    booking_id INTEGER NOT NULL,
+    amount REAL NOT NULL,
+    currency TEXT DEFAULT 'ZAR',
+    gateway TEXT NOT NULL DEFAULT 'payfast',
+    payment_type TEXT NOT NULL DEFAULT 'once_off',
+    status TEXT DEFAULT 'pending',
+    gateway_reference TEXT,
+    gateway_data TEXT,
+    pf_payment_id TEXT,
+    merchant_reference TEXT UNIQUE NOT NULL,
+    item_name TEXT,
+    item_description TEXT,
+    name_first TEXT,
+    name_last TEXT,
+    email_address TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS plan_subscriptions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    booking_id INTEGER,
+    plan_id INTEGER,
+    customer_name TEXT NOT NULL,
+    customer_phone TEXT NOT NULL,
+    customer_email TEXT,
+    customer_address TEXT,
+    plan_name TEXT,
+    status TEXT DEFAULT 'enquiry',
+    payment_method TEXT DEFAULT 'manual',
+    start_date TEXT,
+    next_billing_date TEXT,
+    monthly_amount REAL,
+    notes TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
+  );
 `);
+
+// Add new columns to existing bookings table (safe no-op if already present)
+['payment_option TEXT DEFAULT \'quote_first\'', 'payment_status TEXT DEFAULT \'not_applicable\'', 'total_amount REAL', 'payment_reference TEXT'].forEach(col => {
+  try { db.exec(`ALTER TABLE bookings ADD COLUMN ${col}`) } catch (_) {}
+});
 
 const adminExists = db.prepare('SELECT id FROM users WHERE email = ?').get('admin@sppestcontrol.co.za');
 if (!adminExists) {
