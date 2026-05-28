@@ -29,8 +29,12 @@ export default function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded-xl bg-green-500 flex items-center justify-center">
-                <Shield className="w-5 h-5 text-white" strokeWidth={2.5} />
+              <div className="w-11 h-11 rounded-full bg-white flex items-center justify-center overflow-hidden">
+                <img
+                  src="/sp-pest-control-logo.png"
+                  alt="SP Pest Control logo"
+                  className="w-[130%] h-[130%] max-w-none object-contain"
+                />
               </div>
               <div>
                 <div className="font-bold text-base">SP Pest Control</div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { MessageCircle, Menu, X, Shield } from 'lucide-react'
+import { MessageCircle, Menu, X } from 'lucide-react'
 import { DEFAULT_WA_URL, openWhatsApp } from '../../utils/whatsapp'
 
 const navLinks = [
@@ -63,8 +63,12 @@ export default function Header() {
 
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-green-500 flex items-center justify-center shadow-lg">
-              <Shield className="w-5 h-5 text-white" strokeWidth={2.5} />
+            <div className="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-lg overflow-hidden">
+              <img
+                src="/sp-pest-control-logo.png"
+                alt="SP Pest Control logo"
+                className="w-[130%] h-[130%] max-w-none object-contain"
+              />
             </div>
             <div className="leading-tight">
               <div className="text-white font-bold text-base tracking-tight">SP Pest Control</div>

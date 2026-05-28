@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Eye, EyeOff, Loader2, AlertCircle, Shield, ArrowLeft } from 'lucide-react'
+import { Eye, EyeOff, Loader2, AlertCircle, ArrowLeft } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 export default function AdminLogin() {
@@ -40,8 +40,12 @@ export default function AdminLogin() {
         className="relative z-10 w-full max-w-md"
       >
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-green-500 shadow-2xl shadow-green-500/40 mb-4">
-            <Shield className="w-8 h-8 text-white" strokeWidth={2.5} />
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white shadow-2xl shadow-black/30 mb-4 overflow-hidden">
+              <img
+                src="/sp-pest-control-logo.png"
+                alt="SP Pest Control logo"
+                className="w-[130%] h-[130%] max-w-none object-contain"
+              />
           </div>
           <h1 className="text-2xl font-black text-white mb-1">Sp Pest Control</h1>
           <p className="text-white/40 text-sm">Admin Dashboard</p>

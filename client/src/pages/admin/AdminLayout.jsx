@@ -72,8 +72,12 @@ export default function AdminLayout() {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center gap-3 px-6 py-6 border-b border-white/10">
-        <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-green-500 flex items-center justify-center shadow-lg shadow-green-500/30">
-          <span className="text-white font-black text-sm tracking-tight">SP</span>
+        <div className="flex-shrink-0 w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg overflow-hidden">
+          <img
+            src="/sp-pest-control-logo.png"
+            alt="SP Pest Control logo"
+            className="w-[130%] h-[130%] max-w-none object-contain"
+          />
         </div>
         <div className="flex flex-col">
           <span className="text-white font-bold text-sm leading-tight">Pest Control</span>
